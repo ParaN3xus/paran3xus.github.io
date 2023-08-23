@@ -5,8 +5,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 @font-face {
   font-family: 'icon';
-  src: url("/fonts/icons.eot?9xf5m2");
-  src: url("/fonts/icons.eot?9xf5m2#iefix") format('embedded-opentype'), url("/fonts/icons.ttf?9xf5m2") format('truetype'), url("/fonts/icons.woff?9xf5m2") format('woff'), url("/fonts/icons.svg?9xf5m2#icons") format('svg');
+  src: url("fonts/icons.eot?9xf5m2");
+  src: url("fonts/icons.eot?9xf5m2#iefix") format('embedded-opentype'), url("fonts/icons.ttf?9xf5m2") format('truetype'), url("fonts/icons.woff?9xf5m2") format('woff'), url("fonts/icons.svg?9xf5m2#icons") format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -1155,6 +1155,13 @@ pre {
 #valine-comments .vcount {
   font-size: 14px !important;
 }
+#gitalk-comments .vcontent p {
+  font-family: initial;
+  font-size: initial;
+}
+#gitalk-comments .vcount {
+  font-size: 14px !important;
+}
 .post-widget {
   font-size: 14px;
   max-width: 150px;
@@ -1559,11 +1566,14 @@ s {
   width: 90%;
   max-width: 1080px;
 }
-.main:has(.post-widget) {
+.main:has(article) {
   padding: 40px 0;
   display: grid;
   grid-template-columns: minmax(75%, 800px) auto;
   grid-column-gap: 20px;
+}
+.main:has(article):has(.menu-nav) {
+  padding: unset;
 }
 .main .post .article-entry p {
   line-height: 1.5em;
@@ -1578,17 +1588,20 @@ s {
 .article-entry li {
   font-size: 20px;
   line-height: 2rem;
-  text-indent: 2em;
 }
 .article-entry ul {
+  margin-left: 2em;
+  padding-left: 2em;
   padding-bottom: 0.75em;
 }
 .article-entry ul li {
-  list-style: disc inside;
+  list-style: disc;
+}
+.article-entry ul li p {
+  text-indent: 0;
 }
 .article-entry ul ul li {
-  list-style: circle inside;
-  padding-left: 2em;
+  list-style: circle;
 }
 .article-entry ol {
   padding-bottom: 0.75em;
@@ -1879,4 +1892,7 @@ s {
 .csl-bib-body .csl-entry .csl-right-inline {
   text-align: justify;
   word-break: break-word;
+}
+.csl-bib-body .csl-entry .csl-right-inline a {
+  word-break: break-all;
 }

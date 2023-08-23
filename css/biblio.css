@@ -7,3 +7,6 @@
   text-align: justify;
   word-break: break-word;
 }
+.csl-bib-body .csl-entry .csl-right-inline a {
+  word-break: break-all;
+}

@@ -156,11 +156,14 @@ s {
   width: 90%;
   max-width: content-max-width;
 }
-.main:has(.post-widget) {
+.main:has(article) {
   padding: 40px 0;
   display: grid;
   grid-template-columns: minmax(75%, 800px) auto;
   grid-column-gap: 20px;
+}
+.main:has(article):has(.menu-nav) {
+  padding: unset;
 }
 .main .post .article-entry p {
   line-height: 1.5em;
@@ -175,17 +178,20 @@ s {
 .article-entry li {
   font-size: 20px;
   line-height: 2rem;
-  text-indent: 2em;
 }
 .article-entry ul {
+  margin-left: 2em;
+  padding-left: 2em;
   padding-bottom: 0.75em;
 }
 .article-entry ul li {
-  list-style: disc inside;
+  list-style: disc;
+}
+.article-entry ul li p {
+  text-indent: 0;
 }
 .article-entry ul ul li {
-  list-style: circle inside;
-  padding-left: 2em;
+  list-style: circle;
 }
 .article-entry ol {
   padding-bottom: 0.75em;
