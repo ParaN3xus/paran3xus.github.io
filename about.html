@@ -11,13 +11,14 @@
 
 |
 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div><div class="article-entry" itemprop="articleBody"><p>普通网友，非常遗憾没能对互联网做出什么贡献。</p>
-<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script>window.gitalk = new Gitalk({
+<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script>window.gitalk = new Gitalk({
   clientID: 'db399ba6c4ddbf739bef',
   clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
   repo: 'gitalk-comments',
   owner: 'ParaN3xus',
   admin: 'ParaN3xus'.split(','),
-  distractionFreeMode: false  // Facebook-like distraction free mode
+  distractionFreeMode: false,  // Facebook-like distraction free mode
+  id: md5(location.pathname)
 });
 window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><span class="footer-msg"><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
 PV
