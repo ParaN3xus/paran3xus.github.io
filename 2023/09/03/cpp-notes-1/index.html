@@ -7,48 +7,54 @@
 <link rel="stylesheet" href="/css/helpers.css">
 <script async="async" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading-wrapper" data-loading="true"><div class="loading"><span></span><span></span><span></span></div></div><div class="page" data-filter="true"><div class="head" data-show="true"><header class="head-header"><div class="head-author"><a class="head-author-link" href="/">某人的Blog</a></div><div class="head-right"><button class="bar-wrap" id="bar-wrap-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><div class="head-about" id="head-about"><a class="head-about-link" href="/about">关于</a></div></div></header>
 <div class="menu-bar-head" id="menu-bar" data-show="false"><ul class="menu-bar-ul"><li class="menu-bar-item  border"><a href="/archives"><span>Archives</span></a></li><li class="menu-bar-item"><a href="/tags"><span>Tags</span></a></li><li class="menu-bar-item"><a href="/about"><span>关于</span></a></li></ul></div></div><div class="main"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2023/09/03/cpp-notes-1/">C++学习笔记：输入输出</a></h1></header><div class="post-datetag"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2023-09-03 16:42:33" datetime="2023-09-03T08:42:33.000Z">2023-09-03</time></div>|<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul></div>|
-<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-word-count">本文共350字。</div><div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-word-count">本文共348字。</div><div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
 
 |
-<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div><div class="article-entry" itemprop="articleBody"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><h3 id="scanf"><a href="#scanf" class="headerlink" title="scanf()"></a><code>scanf()</code></h3><p>可读取固定格式的输入。</p>
-<p>用法: </p>
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div><div class="article-entry" itemprop="articleBody"><h2 id="输入">输入</h2>
+<h3 id="scanf"><code>scanf()</code></h3>
+<p>可读取固定格式的输入。</p>
+<p>用法:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(format, contents...)</span><br></pre></td></tr></table></figure>
-
 <p>其中，<code>format</code>可填写的占位符有:</p>
 <ul>
 <li><code>%d</code>: <code>int</code>(十进制)</li>
 <li><code>%u</code>: <code>uint</code>(十进制)</li>
 <li><code>%o</code>: <code>int</code>(八进制)</li>
-<li><code>%x</code>&#x2F;<code>%X</code>: <code>int</code>(十六进制)</li>
+<li><code>%x</code>/<code>%X</code>: <code>int</code>(十六进制)</li>
 <li><code>%i</code>: <code>int</code>(十六、十、八进制)</li>
-<li><code>%f</code>: <code>float</code>&#x2F;<code>double</code></li>
-<li><code>%e</code>: <code>float</code>&#x2F;<code>double</code>(以科学计数法形式表示)</li>
-<li><code>%g</code>: <code>float</code>&#x2F;<code>double</code>(科学计数法和正常形式表示皆可)</li>
+<li><code>%f</code>: <code>float</code>/<code>double</code></li>
+<li><code>%e</code>: <code>float</code>/<code>double</code>(以科学计数法形式表示)</li>
+<li><code>%g</code>: <code>float</code>/<code>double</code>(科学计数法和正常形式表示皆可)</li>
 <li><code>%s</code>: <code>string</code></li>
 <li><code>%c</code>: <code>char</code></li>
 <li><code>%p</code>: <code>void*</code></li>
 </ul>
-<h3 id="getchar"><a href="#getchar" class="headerlink" title="getchar()"></a><code>getchar()</code></h3><p>可以读取一个字符，返回值即为读取的一个字符，当输入结束时，会返回一个特殊的常量<code>EOF</code>(<code>End of File</code>)。</p>
-<h3 id="fgets"><a href="#fgets" class="headerlink" title="fgets()"></a><code>fgets()</code></h3><p>可读取一行。</p>
+<h3 id="getchar"><code>getchar()</code></h3>
+<p>可以读取一个字符，返回值即为读取的一个字符，当输入结束时，会返回一个特殊的常量<code>EOF</code>(<code>End of File</code>)。</p>
+<h3 id="fgets"><code>fgets()</code></h3>
+<p>可读取一行。</p>
 <p>用法:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">fgets</span>(chararr, <span class="built_in">sizeof</span>(chararr), stream)</span><br></pre></td></tr></table></figure>
-
 <p>当使用控制台输入时，<code>stream</code>可填写<code>stdin</code>。</p>
-<h3 id="getline"><a href="#getline" class="headerlink" title="getline()"></a><code>getline()</code></h3><p>可读取一行。</p>
+<h3 id="getline"><code>getline()</code></h3>
+<p>可读取一行。</p>
 <p>用法：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">getline</span>(cin, str)</span><br></pre></td></tr></table></figure>
-
-<h3 id="cin"><a href="#cin" class="headerlink" title="cin"></a><code>cin</code></h3><p><code>cin</code>为标准输入流，可使用以下方法读入空格、回车、占位符分割的数据:</p>
+<h3 id="cin"><code>cin</code></h3>
+<p><code>cin</code>为标准输入流，可使用以下方法读入空格、回车、占位符分割的数据:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cin &gt;&gt; var1 &gt;&gt; var2 ...;</span><br></pre></td></tr></table></figure>
-
-<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><h3 id="printf"><a href="#printf" class="headerlink" title="printf()"></a><code>printf()</code></h3><p>与<code>scanf()</code>类似。</p>
-<h3 id="putchar"><a href="#putchar" class="headerlink" title="putchar()"></a><code>putchar()</code></h3><p>输出一个字符。</p>
-<h3 id="cout"><a href="#cout" class="headerlink" title="cout"></a><code>cout</code></h3><p><code>cout</code>为标准输出流，可使用以下方法输出无分割的数据:</p>
+<h2 id="输出">输出</h2>
+<h3 id="printf"><code>printf()</code></h3>
+<p>与<code>scanf()</code>类似。</p>
+<h3 id="putchar"><code>putchar()</code></h3>
+<p>输出一个字符。</p>
+<h3 id="cout"><code>cout</code></h3>
+<p><code>cout</code>为标准输出流，可使用以下方法输出无分割的数据:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cout &lt;&lt; val1 &lt;&lt; val2 ...;</span><br></pre></td></tr></table></figure>
-
-<h2 id="重定向到文件"><a href="#重定向到文件" class="headerlink" title="重定向到文件"></a>重定向到文件</h2><h3 id="freopen"><a href="#freopen" class="headerlink" title="freopen()"></a><code>freopen()</code></h3><p>用法:</p>
+<h2 id="重定向到文件">重定向到文件</h2>
+<h3 id="freopen"><code>freopen()</code></h3>
+<p>用法:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">freopen</span>(filename, mode, stream);</span><br></pre></td></tr></table></figure>
-
 <p>其中<code>mode</code>可以填写下列选项，或它们的组合:</p>
 <ul>
 <li><code>&quot;r&quot;</code>: 读</li>

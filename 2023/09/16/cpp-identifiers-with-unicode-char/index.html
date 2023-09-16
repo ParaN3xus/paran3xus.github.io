@@ -7,21 +7,22 @@
 <link rel="stylesheet" href="/css/helpers.css">
 <script async="async" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading-wrapper" data-loading="true"><div class="loading"><span></span><span></span><span></span></div></div><div class="page" data-filter="true"><div class="head" data-show="true"><header class="head-header"><div class="head-author"><a class="head-author-link" href="/">某人的Blog</a></div><div class="head-right"><button class="bar-wrap" id="bar-wrap-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><div class="head-about" id="head-about"><a class="head-about-link" href="/about">关于</a></div></div></header>
 <div class="menu-bar-head" id="menu-bar" data-show="false"><ul class="menu-bar-ul"><li class="menu-bar-item  border"><a href="/archives"><span>Archives</span></a></li><li class="menu-bar-item"><a href="/tags"><span>Tags</span></a></li><li class="menu-bar-item"><a href="/about"><span>关于</span></a></li></ul></div></div><div class="main"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2023/09/16/cpp-identifiers-with-unicode-char/">C++标识符中的Unicode字符</a></h1></header><div class="post-datetag"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2023-09-16 19:03:14" datetime="2023-09-16T11:03:14.000Z">2023-09-16</time></div>|<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/unicode/" rel="tag">unicode</a></li></ul></div>|
-<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-word-count">本文共639字。</div><div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-word-count">本文共641字。</div><div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
 
 |
-<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div><div class="article-entry" itemprop="articleBody"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>这其实是我的课程作业，但是因为确实解决了我的一大疑惑和内容比较充实，所以发到这里。</p>
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div><div class="article-entry" itemprop="articleBody"><p>这其实是我的课程作业，但是因为确实解决了我的一大疑惑和内容比较充实，所以发到这里。</p>
 <hr>
-<p>在C++ References的Language栏目下的Identifiers栏目中，有关于C++中标识符命名规则的说明<sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="[Identifiers - cppreference.com](https://en.cppreference.com/w/cpp/language/identifiers)
-">[1]</span></a></sup>：</p>
+<p>在C++ References的Language栏目下的Identifiers栏目中，有关于C++中标识符命名规则的说明<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>：</p>
 <ul>
-<li>首字符应为：<ul>
+<li>首字符应为：
+<ul>
 <li>大小写字母</li>
 <li>下划线</li>
 <li>带有<code>XID_Start</code>属性的任意Unicode字符</li>
 </ul>
 </li>
-<li>其他字符应为：<ul>
+<li>其他字符应为：
+<ul>
 <li>数字</li>
 <li>大小写字母</li>
 <li>下划线</li>
@@ -29,44 +30,56 @@
 </ul>
 </li>
 </ul>
-<p>原网页在两个规则的最后一条末尾给出了一个链接，指向2023年9月1日发布的Unicode 15.1.0标准的第31号附件：UNICODE IDENTIFIERS AND SYNTAX。这个附件的表2<sup id="fnref:2"><a href="#fn:2" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="[UAX #31: Unicode Identifiers and Syntax](https://www.unicode.org/reports/tr31/#Table_Lexical_Classes_for_Identifiers)
-">[2]</span></a></sup>指出了上述规则中提到的<code>XID_</code>属性的说明和覆盖范围：</p>
+<p>原网页在两个规则的最后一条末尾给出了一个链接，指向2023年9月1日发布的Unicode 15.1.0标准的第31号附件：UNICODE IDENTIFIERS AND SYNTAX。这个附件的表2<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>指出了上述规则中提到的<code>XID_</code>属性的说明和覆盖范围：</p>
 <ul>
-<li><code>XID_Start</code>：根据NFKC修改<sup id="fnref:3"><a href="#fn:3" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="[UAX #31: Unicode Identifiers and Syntax](https://www.unicode.org/reports/tr31/#NFKC_Modifications)
-">[3]</span></a></sup>从<code>ID_Start</code>派生</li>
-<li><code>XID_Continue</code>：根据NFKC修改<sup id="fnref:3"><a href="#fn:3" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="[UAX #31: Unicode Identifiers and Syntax](https://www.unicode.org/reports/tr31/#NFKC_Modifications)
-">[3]</span></a></sup>从<code>ID_Continue</code>派生</li>
+<li><code>XID_Start</code>：根据NFKC修改<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>从<code>ID_Start</code>派生</li>
+<li><code>XID_Continue</code>：根据NFKC修改<sup class="footnote-ref"><a href="#fn3" id="fnref3:1">[3:1]</a></sup>从<code>ID_Continue</code>派生</li>
 </ul>
 <p>这里<code>XID_</code>中的<code>X</code>表示<code>Extended</code>（笔者个人意见），实际意义就是其从<code>ID_</code>中经过<code>NFKC</code>（Normalization Form Compatibility Composition）派生。在表格中，同样给出了<code>ID_</code>属性的说明和覆盖范围：</p>
 <ul>
-<li><p><code>ID_Start</code></p>
+<li>
+<p><code>ID_Start</code></p>
 <ul>
 <li>大小写字母</li>
 <li>titlecase letters（似乎与希腊语有关，这里因为和“大写字母”翻译重合不再翻译）</li>
 <li>modifier letters（同上，但似乎不是希腊语）</li>
 <li>other letters（同上）</li>
 <li>letter numbers（同上，类似于各种语言的罗马数字）</li>
-<li>除<code>Pattern_Syntax</code>和<code>Pattern_White_Space</code><sup id="fnref:4"><a href="#fn:4" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="[UAX #31: Unicode Identifiers and Syntax](https://www.unicode.org/reports/tr31/#R3)
-">[4]</span></a></sup>的<code>Other_ID_Start</code></li>
+<li>除<code>Pattern_Syntax</code>和<code>Pattern_White_Space</code><sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>的<code>Other_ID_Start</code></li>
 </ul>
 </li>
-<li><p><code>ID_Continue</code></p>
+<li>
+<p><code>ID_Continue</code></p>
 <ul>
 <li>符合<code>ID_Start</code>属性的字符</li>
 <li>非间距标记</li>
 <li>间距组合标记</li>
 <li>数字</li>
 <li>连接符标点</li>
-<li>除<code>Pattern_Syntax</code>和<code>Pattern_White_Space</code><sup id="fnref:4"><a href="#fn:4" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="[UAX #31: Unicode Identifiers and Syntax](https://www.unicode.org/reports/tr31/#R3)
-">[4]</span></a></sup>的<code>Other_ID_Continue</code></li>
+<li>除<code>Pattern_Syntax</code>和<code>Pattern_White_Space</code><sup class="footnote-ref"><a href="#fn4" id="fnref4:1">[4:1]</a></sup>的<code>Other_ID_Continue</code></li>
 </ul>
 </li>
 </ul>
 <p>其中仍然存在的一些不明属性因过于无聊和没有必要不再展开。</p>
 <p>其中，平常提到的希腊字母在小写字母的范畴内，大部分中文汉字和其他国家的文字在other letter范畴内。因此实际上你可以用中文、希腊字母做标识符名字的一部分。</p>
 <p>但是，在实际测试中，gcc 10.2.1能够正确识别由Emoji表情符号组成的标识符，而Emoji表情所属的other symbol并不在上述属性的范围内。说明编译器开发者对待标准的态度也不是那么一板一眼。</p>
-<p>需要注意的是，以上所说的内容只适用于C++11及之后的标准。实际上，C++的Unicode字符支持首次出现是在N3337草案<sup id="fnref:5"><a href="#fn:5" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="[14882: Contents (timsong-cpp.github.io)](https://timsong-cpp.github.io/cppwp/n3337/)">[5]</span></a></sup>中，这是C++11发布后的第一个标准草案，对C++11标准做了一些重要的修改，应用于C++11标准。</p>
-<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; margin-left: 10px;"><a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/language/identifiers">Identifiers - cppreference.com</a><a href="#fnref:1" rev="footnote"> ↩</a></span></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; margin-left: 10px;"><a target="_blank" rel="noopener" href="https://www.unicode.org/reports/tr31/#Table_Lexical_Classes_for_Identifiers">UAX #31: Unicode Identifiers and Syntax</a><a href="#fnref:2" rev="footnote"> ↩</a></span></li><li id="fn:3"><span style="display: inline-block; vertical-align: top; margin-left: 10px;"><a target="_blank" rel="noopener" href="https://www.unicode.org/reports/tr31/#NFKC_Modifications">UAX #31: Unicode Identifiers and Syntax</a><a href="#fnref:3" rev="footnote"> ↩</a></span></li><li id="fn:4"><span style="display: inline-block; vertical-align: top; margin-left: 10px;"><a target="_blank" rel="noopener" href="https://www.unicode.org/reports/tr31/#R3">UAX #31: Unicode Identifiers and Syntax</a><a href="#fnref:4" rev="footnote"> ↩</a></span></li><li id="fn:5"><span style="display: inline-block; vertical-align: top; margin-left: 10px;"><a target="_blank" rel="noopener" href="https://timsong-cpp.github.io/cppwp/n3337/">14882: Contents (timsong-cpp.github.io)</a><a href="#fnref:5" rev="footnote"> ↩</a></span></li></ol></div></div><h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script>window.gitalk = new Gitalk({
+<p>需要注意的是，以上所说的内容只适用于C++11及之后的标准。实际上，C++的Unicode字符支持首次出现是在N3337草案<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>中，这是C++11发布后的第一个标准草案，对C++11标准做了一些重要的修改，应用于C++11标准。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/language/identifiers">Identifiers - cppreference.com</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://www.unicode.org/reports/tr31/#Table_Lexical_Classes_for_Identifiers">UAX #31: Unicode Identifiers and Syntax</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://www.unicode.org/reports/tr31/#NFKC_Modifications">UAX #31: Unicode Identifiers and Syntax</a> <a href="#fnref3" class="footnote-backref">↩︎</a> <a href="#fnref3:1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://www.unicode.org/reports/tr31/#R3">UAX #31: Unicode Identifiers and Syntax</a> <a href="#fnref4" class="footnote-backref">↩︎</a> <a href="#fnref4:1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://timsong-cpp.github.io/cppwp/n3337/">14882: Contents (timsong-cpp.github.io)</a> <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script>window.gitalk = new Gitalk({
   clientID: 'db399ba6c4ddbf739bef',
   clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
   repo: 'gitalk-comments',
