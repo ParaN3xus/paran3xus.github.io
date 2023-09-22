@@ -5,9 +5,17 @@
 <link rel="stylesheet" href="/css/style.css">
 
 <link rel="stylesheet" href="/css/helpers.css">
-<script async="async" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading-wrapper" data-loading="true"><div class="loading"><span></span><span></span><span></span></div></div><div class="page" data-filter="true"><div class="head" data-show="true"><header class="head-header"><div class="head-author"><a class="head-author-link" href="/">某人的Blog</a></div><div class="head-right"><button class="bar-wrap" id="bar-wrap-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><div class="head-about" id="head-about"><a class="head-about-link" href="/about">关于</a></div></div></header>
-<div class="menu-bar-head" id="menu-bar" data-show="false"><ul class="menu-bar-ul"><li class="menu-bar-item  border"><a href="/archives"><span>Archives</span></a></li><li class="menu-bar-item"><a href="/tags"><span>Tags</span></a></li><li class="menu-bar-item"><a href="/about"><span>关于</span></a></li></ul></div></div><div class="main"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2023/07/08/old-api-converter-for-free-gpt-api/">GPT旧版API转换器</a></h1></header><div class="post-datetag"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2023-07-08 08:52:54" datetime="2023-07-08T00:52:54.000Z">2023-07-08</time></div>|<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gpt/" rel="tag">gpt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul></div>|
-<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-word-count">本文共1381字。</div><div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
+
+<script src="/js/clipboard/clipboard.min.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+<script async="async" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading-wrapper" data-loading="data-loading"><div class="loading"><span></span><span></span><span></span></div></div><div class="page" data-filter="data-filter"><div class="head" data-show="data-show"><header class="head-header"><div class="head-author"><a class="head-author-link" href="/">某人的Blog</a></div><div class="head-right"><button class="bar-wrap" id="bar-wrap-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><div class="head-item"><a class="head-item-link" href="/about">关于</a></div></div></header>
+<div class="menu-bar-head" id="menu-bar"><ul class="menu-bar-ul"><li class="menu-bar-item" data-border="data-border"></li><li class="menu-bar-item"><i class="icon icon-archive"></i>
+<a class="menu-bar-link" href="/archives">Archives</a></li><li class="menu-bar-item"><i class="icon icon-tags"></i>
+<a class="menu-bar-link" href="/tags">Tags</a></li><li class="menu-bar-item" data-border="data-border"></li><li class="menu-bar-item"><a class="menu-bar-link" href="/about"><span>关于</span></a></li></ul></div></div><div class="main"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2023/07/08/old-api-converter-for-free-gpt-api/">GPT旧版API转换器</a></h1></header><div class="post-datetag"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2023-07-08 08:52:54" datetime="2023-07-08T00:52:54.000Z">2023-07-08</time></div>|<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gpt/" rel="tag">gpt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul></div>|
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-word-count">本文共1,381字。</div><div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
 
 |
 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div><div class="article-entry" itemprop="articleBody"><h2 id="目的">目的</h2>
@@ -69,9 +77,9 @@
   owner: 'ParaN3xus',
   admin: 'ParaN3xus'.split(','),
   distractionFreeMode: false,  // Facebook-like distraction free mode
-  id: md5(location.pathname)
-});
-window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article><aside class="post-widget"><nav class="post-toc-wrap" id="post-toc"><h4>TOC</h4><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%9B%AE%E7%9A%84"><span class="post-toc-number">1.</span> <span class="post-toc-text">目的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%97%AE%E9%A2%98"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">实现代理服务器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%AF%B7%E6%B1%82%E5%A4%B4%E8%BD%AC%E5%8F%91"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">实现请求头转发</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%97%A7%E7%89%88API%E7%9A%84%E6%A3%80%E6%9F%A5%E5%92%8C%E8%BD%AC%E6%8D%A2"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">实现对旧版API的检查和转换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%9B%9E%E5%A4%8D%E5%A4%B4%E8%BD%AC%E5%8F%91"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">实现回复头转发</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9D%82%E9%A1%B9"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">杂项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BE%85%E7%BB%AD"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">待续</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="post-toc-number">4.</span> <span class="post-toc-text">最终结果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a></li></ol></nav></aside></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><span class="footer-msg"><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
+  id: md5(location.pathname)  
+  });
+window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article><aside class="post-widget"><h4>目录</h4><nav class="post-toc-wrap" id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%9B%AE%E7%9A%84"><span class="post-toc-number">1.</span> <span class="post-toc-text">目的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%97%AE%E9%A2%98"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">实现代理服务器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%AF%B7%E6%B1%82%E5%A4%B4%E8%BD%AC%E5%8F%91"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">实现请求头转发</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%97%A7%E7%89%88API%E7%9A%84%E6%A3%80%E6%9F%A5%E5%92%8C%E8%BD%AC%E6%8D%A2"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">实现对旧版API的检查和转换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%9B%9E%E5%A4%8D%E5%A4%B4%E8%BD%AC%E5%8F%91"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">实现回复头转发</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9D%82%E9%A1%B9"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">杂项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BE%85%E7%BB%AD"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">待续</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="post-toc-number">4.</span> <span class="post-toc-text">最终结果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a></li></ol></nav></aside></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><span class="footer-msg"><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
 PV
 </span><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv">?</span>
 UV</span></div>
@@ -83,14 +91,26 @@ ParaN3xus.
 Power by
 <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>
 and
-<a href="https://github.com/Cerallin/hexo-theme-yuzu" target="_blank" rel="external nofollow" title="v3.1">Theme Yuzu</a>.</span></div></footer>
-<script src="/js/clipboard/clipboard.min.js"></script>
+<a href="https://github.com/Cerallin/hexo-theme-yuzu" target="_blank" rel="external nofollow" title="v3.2">Theme Yuzu</a>.</span></div></footer><script>window.config = {
+  url_root: '/',
+  meta_path: '',
+};
+</script>
+<script src="/js/theme/back-to-top.js"></script>
 
 
-<script src="/js/theme.js"></script>
+<script src="/js/theme/clipboard.js"></script>
 
 
-<script src="/js/index.js"></script>
+<script src="/js/theme/loading.js"></script>
 
-<script src="/js/toc.js"></script>
-</div></body></html>
+
+<script src="/js/theme/navbar.js"></script>
+
+<script src="/js/theme/toc.js"></script>
+<script>window.onload = function () {
+  for (const moduleName in Theme) {
+    const module = Theme[moduleName];
+    module.register();
+  }
+};</script></div><div class="search-modal" id="search-modal"><div class="card"><div class="card-head"><div class="search-box"><input class="search-input" id="search-input" placeholder="搜索"/><div class="search-button" id="search-button"><div class="icon icon-search"></div></div></div><div class="close-button"><div class="icon icon-x"></div></div></div><div class="card-body"><div class="search-count">共<span id="search-count-num">0</span>条搜索结果。</div><div class="search-result" id="search-result"></div></div></div></div></body></html>

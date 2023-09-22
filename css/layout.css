@@ -46,7 +46,7 @@ s {
     top: 0;
     animation: showHead 0.4s forwards;
   }
-  .page .head[data-show=false] {
+  .page .head:not([data-show]) {
     animation: hideHead 0.4s forwards;
   }
   .about,
@@ -55,7 +55,7 @@ s {
     font-weight: 400 !important;
   }
   .menu-nav,
-  #head-about {
+  .head-right .head-item {
     display: none;
   }
   .post-widget {
@@ -75,11 +75,12 @@ s {
     position: fixed;
     left: 0px;
     top: 65px;
+    height: calc(100vh - 65px);
     width: 100%;
     border-top: 1px solid;
     box-shadow: 0 5px 10px;
   }
-  .menu-bar-head[data-show=false] {
+  .menu-bar-head:not([data-show]) {
     display: none;
   }
   #post {
@@ -165,6 +166,9 @@ s {
 .main:has(article):has(.menu-nav) {
   padding: unset;
 }
+.main:has(.category) {
+  display: block;
+}
 .main .post .article-entry p {
   line-height: 1.5em;
 }
@@ -194,10 +198,14 @@ s {
   list-style: circle;
 }
 .article-entry ol {
+  padding-left: 2em;
   padding-bottom: 0.75em;
 }
 .article-entry ol li {
-  list-style: decimal inside;
+  list-style: decimal;
+}
+.article-entry ol li p {
+  text-indent: 0;
 }
 .page .footer-nav {
   display: block;
