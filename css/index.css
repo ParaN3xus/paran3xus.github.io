@@ -1,10 +1,10 @@
-.main:has(.menu-nav) {
+.main[data-page="home"] {
   display: grid;
   grid-template-columns: 20% 1fr;
   grid-column-gap: 8%;
 }
 @media (max-width: 768px) {
-  .main:has(.menu-nav) {
+  .main[data-page="home"] {
     grid-template-columns: 1fr;
   }
 }
@@ -15,6 +15,7 @@
   vertical-align: middle;
 }
 #index-content {
+  width: 100%;
   max-width: content-max-width;
   margin: 0 auto;
 }

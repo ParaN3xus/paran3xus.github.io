@@ -64,9 +64,6 @@ s {
   #bar-wrap-toggle {
     display: inline-block;
   }
-  #index-content {
-    width: 100%;
-  }
   .page .main {
     margin-top: 65px;
   }
@@ -156,17 +153,18 @@ s {
   margin-right: auto;
   width: 90%;
   max-width: content-max-width;
-}
-.main:has(article) {
-  padding: 40px 0;
   display: grid;
   grid-template-columns: minmax(75%, 800px) auto;
   grid-column-gap: 20px;
 }
-.main:has(article):has(.menu-nav) {
+.main[data-page="post"] {
+  padding: 40px 0;
+}
+.main[data-page="home"] {
   padding: unset;
 }
-.main:has(.category) {
+.main[data-page="category"],
+.main[data-page="archive"] {
   display: block;
 }
 .main .post .article-entry p {

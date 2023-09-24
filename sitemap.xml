@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://paran3xus.github.io/googlee29b47c874cd83c4.html</loc>
+    
+    <lastmod>2023-09-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://paran3xus.github.io/2023/09/16/cpp-identifiers-with-unicode-char/</loc>
     
     <lastmod>2023-09-16</lastmod>
@@ -115,7 +124,42 @@
   </url>
   
   <url>
+    <loc>https://paran3xus.github.io/tags/minecraft/</loc>
+    <lastmod>2023-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://paran3xus.github.io/tags/c-sharp/</loc>
+    <lastmod>2023-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://paran3xus.github.io/tags/avalonia-ui/</loc>
+    <lastmod>2023-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://paran3xus.github.io/tags/clash/</loc>
+    <lastmod>2023-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://paran3xus.github.io/tags/cpp/</loc>
+    <lastmod>2023-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://paran3xus.github.io/tags/unicode/</loc>
     <lastmod>2023-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -144,41 +188,6 @@
   
   <url>
     <loc>https://paran3xus.github.io/tags/gpt/</loc>
-    <lastmod>2023-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://paran3xus.github.io/tags/minecraft/</loc>
-    <lastmod>2023-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://paran3xus.github.io/tags/c-sharp/</loc>
-    <lastmod>2023-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://paran3xus.github.io/tags/clash/</loc>
-    <lastmod>2023-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://paran3xus.github.io/tags/avalonia-ui/</loc>
-    <lastmod>2023-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://paran3xus.github.io/tags/unicode/</loc>
     <lastmod>2023-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

@@ -9,6 +9,14 @@
     return [].map.call(this, callback);
   }
 
+  NodeList.prototype.forEach = function (callback) {
+    return [].forEach.call(this, callback);
+  }
+
+  NodeList.prototype.map = function (callback) {
+    return [].map.call(this, callback);
+  }
+
   this.request = async function (url, options = {
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
@@ -55,8 +63,8 @@
       else if (response.status !== 200)
         throw new RequestError(response.status, `Failed fetching search meta, got status ${response.status}`);
 
-      if (!contentType.includes('application/json'))
-        throw ContentTypeError(contentType);
+      if (!contentType.match(/application\/json/i))
+        throw new ContentTypeError(contentType);
 
       return await response.json();
     }
