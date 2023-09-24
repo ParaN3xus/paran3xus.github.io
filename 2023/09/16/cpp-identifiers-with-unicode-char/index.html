@@ -89,12 +89,13 @@
 </li>
 </ol>
 </section>
-<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script>window.gitalk = new Gitalk({
+<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script>window.gitalk = new Gitalk({
   clientID: 'db399ba6c4ddbf739bef',
   clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
   repo: 'gitalk-comments',
   owner: 'ParaN3xus',
   admin: 'ParaN3xus'.split(','),
+  id: md5(window.location.pathname),
   distractionFreeMode: false  // Facebook-like distraction free mode
 });
 window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><span class="footer-msg"><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
