@@ -67,7 +67,7 @@ s {
   .page .main {
     margin-top: 65px;
   }
-  .menu-bar-head {
+  .menubar-head {
     display: block;
     position: fixed;
     left: 0px;
@@ -77,7 +77,7 @@ s {
     border-top: 1px solid;
     box-shadow: 0 5px 10px;
   }
-  .menu-bar-head:not([data-show]) {
+  .menubar-head:not([data-show]) {
     display: none;
   }
   #post {
@@ -256,4 +256,26 @@ s {
   display: inline-block;
   width: 16px;
   height: 16px;
+}
+.post-meta {
+  font-family: default-font-family;
+  margin-bottom: 10px;
+}
+.post-meta .post-date {
+  display: inline-block;
+  margin-right: 10px;
+}
+.post-meta .post-date .post-time {
+  font-family: 'Raleway', Georgia, 'Times New Roman', Times, serif;
+}
+.post-meta .post-tag {
+  display: inline-block;
+  margin: 0 10px;
+}
+.post-meta .post-tag a {
+  text-decoration: none;
+}
+.post-meta .post-visit {
+  display: inline-block;
+  margin: 0 10px;
 }
