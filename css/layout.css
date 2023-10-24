@@ -163,6 +163,9 @@ s {
 .main[data-page="home"] {
   padding: unset;
 }
+.main[data-page="tag"] {
+  display: block;
+}
 .main[data-page="category"],
 .main[data-page="archive"] {
   display: block;
