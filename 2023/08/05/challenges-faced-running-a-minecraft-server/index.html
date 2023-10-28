@@ -22,31 +22,31 @@
 <div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
 
 |
-<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><p>很早之前就有开<code>Minecraft</code>服务器的想法，终于在最近才得到真正的实现。</p>
-<p>最近斥<s>巨资</s>购入了国内某知名云厂商的服务器，并使用<code>paper</code>系的服务端搭建了一个<s>休闲生电粘液</s><code>Minecraft</code>服务器。</p>
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><p>很早之前就有开Minecraft服务器的想法，终于在最近才得到真正的实现。</p>
+<p>最近斥<s>巨资</s>购入了国内某知名云厂商的服务器，并使用paper系的服务端搭建了一个<s>休闲生电粘液</s>Minecraft服务器。</p>
 <p>由于服务器类型比较特殊，所以运营过程中遇到了一些技术问题，在这里记录一下踩坑经历。</p>
 <h2 id="Sending-too-many-packets">Sending too many packets!</h2>
 <p>因为我们是一个<s>生电</s>服务器，所以免不了一些需要高速操作的地方，而一般的服务器都会禁止短时间大量发包，所以我们需要进行特别的配置。</p>
 <h3 id="ViaVersion">ViaVersion</h3>
-<p>如果安装了<code>ViaVersion</code>插件，那么其配置文件中的<code>max-pps</code>配置项可能导致玩家被踢出。将其设置为<code>-1</code>来完全禁止检测或者设置为更大的数值可以修复。</p>
+<p>如果安装了ViaVersion插件，那么其配置文件中的<code>max-pps</code>配置项可能导致玩家被踢出。将其设置为<code>-1</code>来完全禁止检测或者设置为更大的数值可以修复。</p>
 <h3 id="server-properties">server.properties</h3>
-<p>该配置文件中的<code>rate-limit</code>项和上面的<code>ViaVersion</code>中的<code>max-pps</code>其实大同小异，但是如果完全禁止则需要设置为<code>0</code>。</p>
+<p>该配置文件中的<code>rate-limit</code>项和上面的ViaVersion中的<code>max-pps</code>其实大同小异，但是如果完全禁止则需要设置为<code>0</code>。</p>
 <h3 id="paper-yml">paper.yml</h3>
-<p>我们的主角来了。傻逼<code>paper</code>的配置文件中有一项<code>incoming-packet-spam-threshold</code>，官方文档对其解释是：</p>
+<p>我们的主角来了。傻逼paper的配置文件中有一项<code>incoming-packet-spam-threshold</code>，官方文档对其解释是：</p>
 <blockquote>
 <p>Sets the threshold at which the server will consider incoming packets spam and ignore them.</p>
 </blockquote>
 <p>其默认值为<code>300</code>。</p>
 <p>我在网上检索相关资料时也找到了其他人对这个配置项的一些说法，比如：<a target="_blank" rel="noopener" href="https://www.spigotmc.org/threads/sending-too-many-packets.440108/">https://www.spigotmc.org/threads/sending-too-many-packets.440108/</a></p>
-<p><code>5</code>楼还建议楼主<code>increase incoming-packet-spam-threshold</code>。</p>
+<p>5楼还建议楼主increase incoming-packet-spam-threshold。</p>
 <p>我觉得是个正常人，就会觉得这一项代表的是数据包的量的阈值，单位是个，所以要达到高速操作的目的，就要提高这个阈值，就要调大。</p>
 <p>但是实际上这一项是<strong>数据包发送间隔</strong>，单位是毫秒，所以实际上你应该调低他。</p>
-<p>这个傻逼问题卡了我一个小时，多亏了<code>paper</code>文档不明不白的解释。</p>
+<p>这个傻逼问题卡了我一个小时，多亏了paper文档不明不白的解释。</p>
 <h3 id="tuinity-yml">tuinity.yml</h3>
-<p><code>paper</code>系的服务端实际上是指<code>purpur</code>，如果你也使用<code>purpur</code>，那你可能会有这个配置文件。</p>
-<p>可以把<code>packet-limiter</code>中的<code>interval</code>全部改为<code>-1.0</code>来禁用这个功能，或者按照官方<code>wiki</code>做更细致的修改：<a target="_blank" rel="noopener" href="https://github.com/Tuinity/Tuinity/wiki/Config#packet-limiter">Config · Tuinity/Tuinity Wiki (github.com)</a></p>
+<p>paper系的服务端实际上是指purpur，如果你也使用purpur，那你可能会有这个配置文件。</p>
+<p>可以把<code>packet-limiter</code>中的<code>interval</code>全部改为<code>-1.0</code>来禁用这个功能，或者按照官方wiki做更细致的修改：<a target="_blank" rel="noopener" href="https://github.com/Tuinity/Tuinity/wiki/Config#packet-limiter">Config · Tuinity/Tuinity Wiki (github.com)</a></p>
 <h2 id="Geyser">Geyser</h2>
-<p><code>BE</code>的端口是<code>UDP</code>的，防火墙别选错协议。</p>
+<p>BE的端口是UDP的，防火墙别选错协议。</p>
 <h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script>window.gitalk = new Gitalk({
   clientID: 'db399ba6c4ddbf739bef',
   clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
