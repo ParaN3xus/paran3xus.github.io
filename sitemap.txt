@@ -1,3 +1,4 @@
+https://paran3xus.github.io/2024/02/10/serialize-roslyn-script-state/
 https://paran3xus.github.io/tags/index.html
 https://paran3xus.github.io/2023/10/24/challenges-faced-applying-giffgaff/
 https://paran3xus.github.io/2023/11/28/proxy-for-tg-bot-api-using-cf-worker/
@@ -33,3 +34,5 @@ https://paran3xus.github.io/tags/proxy/
 https://paran3xus.github.io/tags/cloudflare/
 https://paran3xus.github.io/tags/telegram/
 https://paran3xus.github.io/tags/network/
+https://paran3xus.github.io/tags/roslyn/
+https://paran3xus.github.io/tags/net/
