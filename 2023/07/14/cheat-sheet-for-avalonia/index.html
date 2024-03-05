@@ -58,7 +58,7 @@
 <h2 id="非主线程操作UI">非主线程操作UI</h2>
 <p>如果直接操作会InvalidOperationException: “Call from invalid thread”，只需要用下面的方式即可解决。</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Dispatcher.UIThread.InvokeAsync(() =&gt; &#123; <span class="comment">/* Do something here */</span> &#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="js/md5.js"></script><script>window.gitalk = new Gitalk({
+<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
   clientID: '',
   clientSecret: '',
   repo: 'gitalk-comments',

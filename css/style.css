@@ -210,9 +210,27 @@ figure.highlight > .clipboard-btn .icon:before {
 .article-entry h4 + h5 {
   padding-top: 0;
 }
-.article-entry[id^='eq:']>table tr,
-.article-entry div[id^='eq:']>table tr {
-  vertical-align: bottom;
+.article-entry[id^='eq:']>table,
+.article-entry div[id^='eq:']>table {
+  width: 100%;
+}
+.article-entry[id^='eq:']>table tbody,
+.article-entry div[id^='eq:']>table tbody {
+  width: 100%;
+}
+.article-entry[id^='eq:']>table tbody tr,
+.article-entry div[id^='eq:']>table tbody tr {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  vertical-align: text-bottom;
+}
+.article-entry[id^='eq:']>table tbody tr td:first-child,
+.article-entry div[id^='eq:']>table tbody tr td:first-child {
+  width: 100%;
+  position: absolute;
 }
 .article-entry:not([id^='eq:'])>table,
 .article-entry div:not([id^='eq:'])>table {
@@ -356,6 +374,7 @@ figure.highlight > .clipboard-btn .icon:before {
   word-break: break-word;
   padding-top: 0.25em;
   padding-bottom: 0.5em;
+  text-indent: 2em;
 }
 .post-item blockquote p {
   text-indent: 0;
@@ -485,6 +504,7 @@ figure.highlight > .clipboard-btn .icon:before {
   word-break: break-word;
   padding-top: 0.25em;
   padding-bottom: 0.5em;
+  text-indent: 2em;
 }
 .post p code {
   vertical-align: middle;
@@ -510,6 +530,9 @@ figure.highlight > .clipboard-btn .icon:before {
   .post p code {
     background-color: #33333e;
   }
+}
+.post p .math.inline {
+  font-size: 0.9em;
 }
 .post blockquote {
   padding-bottom: 0.5em;
@@ -1643,14 +1666,17 @@ figure.highlight.cpp figcaption span:before {
 .post-widget .post-toc-wrap .post-toc .post-toc-item:last-child {
   padding-bottom: 0;
 }
+.post-widget .post-toc-wrap .post-toc .post-toc-item[data-active] > .post-toc-link {
+  font-weight: bold;
+}
 @media (prefers-color-scheme: light) {
   .post-widget .post-toc-wrap .post-toc .post-toc-item[data-active] > .post-toc-link {
-    color: #333;
+    color: #666;
   }
 }
 @media (prefers-color-scheme: dark) {
   .post-widget .post-toc-wrap .post-toc .post-toc-item[data-active] > .post-toc-link {
-    color: #cdcdcd;
+    color: #9a9a9a;
   }
 }
 .post-widget .post-toc-wrap .post-toc .post-toc-item .post-toc-link {

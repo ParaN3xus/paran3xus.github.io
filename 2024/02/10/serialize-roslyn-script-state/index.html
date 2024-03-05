@@ -18,11 +18,13 @@
 <a class="menubar-link" href="/tags">Tags</a></li><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><a class="menubar-link" href="/about"><span>关于</span></a></li></ul><div class="menu-search-box search-button"><div>搜索</div>
 <i class="icon icon-search"></i></div></div></div><div class="main" data-page="post"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2024/02/10/serialize-roslyn-script-state/">序列化.NET Roslyn中的ScriptState&lt;T&gt;</a></h1></header><div class="post-meta"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2024-02-10 20:15:54" datetime="2024-02-10T12:15:54.000Z">2024-02-10</time></div>|
 <div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/" rel="tag">.net</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c-sharp/" rel="tag">c-sharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/roslyn/" rel="tag">roslyn</a></li></ul></div>
-<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共854字。</div>
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共664字。</div>
 <div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
 
 |
-<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><p><code>ScriptState&lt;T&gt;</code>是<code>.NET</code>的<code>Roslyn</code>中用于储存脚本运行结果的对象。<code>ScriptState</code>中只暴露了少部分内容，所以不能通过直接使用<code>System.Text.Json.JsonSerializer</code>或XML等进行序列化。</p>
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><h1>放弃了, 没找到解决方案</h1>
+<p><strong>本文内容存在错误，正在等待修复</strong></p>
+<p><code>ScriptState&lt;T&gt;</code>是<code>.NET</code>的<code>Roslyn</code>中用于储存脚本运行结果的对象。<code>ScriptState</code>中只暴露了少部分内容，所以不能通过直接使用<code>System.Text.Json.JsonSerializer</code>或XML等进行序列化。</p>
 <p>如果使用自定义派生类的方式进行Json或XML序列化，需要大量Dirty work。</p>
 <h2 id="思路">思路</h2>
 <p>这时候不妨回顾一下<strong>序列化</strong>的定义：</p>
@@ -44,26 +46,6 @@
 <li><code>return;</code></li>
 <li><code>expression</code></li>
 </ul>
-<p>这两种语句也还能继续细分：</p>
-<ul>
-<li><code>return;</code>
-<ul>
-<li>有返回值的</li>
-<li>无返回值的</li>
-</ul>
-</li>
-<li><code>expression</code>
-<ul>
-<li>有值的，如<code>1+1</code></li>
-<li>无值的，如<code>null</code>，或对返回值为<code>void</code>的函数的调用</li>
-</ul>
-</li>
-</ul>
-<p>而“有值”这个特性其实把我们想要过滤的语句和其他声明性的语句明显区分开：声明本身是没有值的。</p>
-<h3 id="有值的">有值的</h3>
-<p>所以我们在<code>SandBox</code>中维护一个<code>rawCode</code>，仅在用户的新代码不返回值的时候将代码<code>Append</code>到其中。</p>
-<p>这样，就只剩下没有值的语句了。</p>
-<h3 id="无值的">无值的</h3>
 <p><code>Roslyn</code>提供了许多非常方便的功能，比如我们可以通过直接读取语法树，知道代码中包含什么内容。</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Compilation compilation = newScript.GetCompilation();</span><br><span class="line">SyntaxTree syntaxTree = compilation.SyntaxTrees.Single();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> syntaxNodeRoot = (CompilationUnitSyntax)syntaxTree.GetRoot();</span><br></pre></td></tr></table></figure>
 <p>这两种无值的、需要筛除的语句都是顶级语句，所以我们可以先筛选出语法树中的顶级语句：</p>
@@ -74,8 +56,7 @@
 <p><code>Statement</code>对象的<code>Span</code>属性标记了该对象在源代码中的具体位置，非常方便我们进行筛除：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> processedCode = rawCode;</span><br><span class="line"><span class="keyword">var</span> offset = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(<span class="keyword">var</span> s <span class="keyword">in</span> globalStatements)</span><br><span class="line">&#123;</span><br><span class="line">    processedCode = processedCode.Remove(s!.Span.Start - offset, s.Span.Length);</span><br><span class="line">    offset += s.Span.Length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样就大功告成了。</p>
-<p>你可能会问既然可以直接分析语法树，为什么还要把有值无值分开来做呢？好吧可能确实方便一点，但是分开来做就能避免对部分代码重复分析，可能对性能有细微好的影响。</p>
-<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="js/md5.js"></script><script>window.gitalk = new Gitalk({
+<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
   clientID: '',
   clientSecret: '',
   repo: 'gitalk-comments',
@@ -84,7 +65,7 @@
   id: md5(window.location.pathname),
   distractionFreeMode: false  // Facebook-like distraction free mode
 });
-window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article><aside class="post-widget"><h4>目录</h4><nav class="post-toc-wrap" id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="post-toc-number">1.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%97%AE%E9%A2%98"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决方案</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%89%E5%80%BC%E7%9A%84"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">有值的</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%97%A0%E5%80%BC%E7%9A%84"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">无值的</span></a></li></ol></li></ol></nav></aside></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><div class="footer-content"><div class="footer-links"><div class="footer-links-column"><p><a title="sjfh's Homepage" target="_blank" rel="noopener" href="https://sjfh.top/">sjfh's Homepage</a></p></div></div><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
+window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article><aside class="post-widget"><h4>目录</h4><nav class="post-toc-wrap" id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link"><span class="post-toc-number">1.</span> <span class="post-toc-text">放弃了, 没找到解决方案</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%97%AE%E9%A2%98"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li></ol></nav></aside></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><div class="footer-content"><div class="footer-links"><div class="footer-links-column"><p><a title="sjfh's Homepage" target="_blank" rel="noopener" href="https://sjfh.top/">sjfh's Homepage</a></p></div></div><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
 PV
 </span><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv">?</span>
 UV</span></div>
