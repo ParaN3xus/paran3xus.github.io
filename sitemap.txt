@@ -1,3 +1,4 @@
+https://paran3xus.github.io/2024/07/05/onnx-map-pytorch/
 https://paran3xus.github.io/2023/10/03/tutorial-of-cracking-scut-campus-network/
 https://paran3xus.github.io/2024/02/10/serialize-roslyn-script-state/
 https://paran3xus.github.io/2023/07/14/cheat-sheet-for-avalonia/
@@ -36,3 +37,7 @@ https://paran3xus.github.io/tags/gpt/
 https://paran3xus.github.io/tags/network/
 https://paran3xus.github.io/tags/roslyn/
 https://paran3xus.github.io/tags/net/
+https://paran3xus.github.io/tags/python/
+https://paran3xus.github.io/tags/ai/
+https://paran3xus.github.io/tags/pytorch/
+https://paran3xus.github.io/tags/onnx/
