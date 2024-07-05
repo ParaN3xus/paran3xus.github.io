@@ -59,8 +59,8 @@ ParaN3xus的Blog
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> processedCode = rawCode;</span><br><span class="line"><span class="keyword">var</span> offset = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(<span class="keyword">var</span> s <span class="keyword">in</span> globalStatements)</span><br><span class="line">&#123;</span><br><span class="line">    processedCode = processedCode.Remove(s!.Span.Start - offset, s.Span.Length);</span><br><span class="line">    offset += s.Span.Length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样就大功告成了。</p>
 <h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
-  clientID: '',
-  clientSecret: '',
+  clientID: 'db399ba6c4ddbf739bef',
+  clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
   repo: 'gitalk-comments',
   owner: 'ParaN3xus',
   admin: 'ParaN3xus'.split(','),
