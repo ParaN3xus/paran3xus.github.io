@@ -1,3 +1,4 @@
+https://paran3xus.github.io/about.html
 https://paran3xus.github.io/2024/07/05/onnx-map-pytorch/
 https://paran3xus.github.io/2023/10/03/tutorial-of-cracking-scut-campus-network/
 https://paran3xus.github.io/2024/02/10/serialize-roslyn-script-state/
@@ -15,7 +16,6 @@ https://paran3xus.github.io/2023/09/10/challenges-faced-requesting-github-studen
 https://paran3xus.github.io/googlee29b47c874cd83c4.html
 https://paran3xus.github.io/2023/09/16/cpp-identifiers-with-unicode-char/
 https://paran3xus.github.io/2023/06/14/say-goodbye-to-the-past/
-https://paran3xus.github.io/about.html
 https://paran3xus.github.io/
 https://paran3xus.github.io/tags/free-ride/
 https://paran3xus.github.io/tags/uk-sim/
