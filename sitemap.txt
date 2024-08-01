@@ -1,3 +1,4 @@
+https://paran3xus.github.io/2024/08/01/challenges-faced-using-nvidia-hyprland-arch/
 https://paran3xus.github.io/about.html
 https://paran3xus.github.io/2024/07/05/onnx-map-pytorch/
 https://paran3xus.github.io/2023/10/03/tutorial-of-cracking-scut-campus-network/
@@ -41,3 +42,6 @@ https://paran3xus.github.io/tags/python/
 https://paran3xus.github.io/tags/ai/
 https://paran3xus.github.io/tags/pytorch/
 https://paran3xus.github.io/tags/onnx/
+https://paran3xus.github.io/tags/arch/
+https://paran3xus.github.io/tags/hyprland/
+https://paran3xus.github.io/tags/wayland/
