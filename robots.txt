@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /tags/
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+
+Sitemap: https://fuhailin.github.io/sitemap.xml
+Sitemap: https://fuhailin.github.io/baidusitemap.xml
