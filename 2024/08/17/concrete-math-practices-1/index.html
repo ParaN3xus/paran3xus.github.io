@@ -1,4 +1,4 @@
-<html lang="zh"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="写点小东西，主要自己看"/><meta name="keyword"/><title>新的开始
+<html lang="zh"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="写点小东西，主要自己看"/><meta name="keyword"/><title>具体数学第一章课后习题详解
 -
 ParaN3xus的Blog
 -
@@ -220,14 +220,212 @@ path.outline_glyph {
 <div class="menubar-head" id="menubar"><ul class="menubar-ul"><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><i class="icon icon-archive"></i>
 <a class="menubar-link" href="/archives">Archives</a></li><li class="menubar-item"><i class="icon icon-tags"></i>
 <a class="menubar-link" href="/tags">Tags</a></li><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><a class="menubar-link" href="/about"><span>关于</span></a></li></ul><div class="menu-search-box search-button"><div>搜索</div>
-<i class="icon icon-search"></i></div></div></div><div class="main" data-page="post"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2023/06/14/say-goodbye-to-the-past/">新的开始</a></h1></header><div class="post-meta"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2023-06-14 08:52:09" datetime="2023-06-14T00:52:09.000Z">2023-06-14</time></div>|
+<i class="icon icon-search"></i></div></div></div><div class="main" data-page="post"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2024/08/17/concrete-math-practices-1/">具体数学第一章课后习题详解</a></h1></header><div class="post-meta"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2024-08-17 20:00:13" datetime="2024-08-17T12:00:13.497Z">2024-08-17</time></div>|
 <div class="post-tag"></div>
-<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共10字。</div>
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共557字。</div>
 <div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
 
 |
-<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><p>希望少犯之前犯过的错</p>
-<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><script>window.typstBindSvgDom = function () {};
+window.captureStack = function () {
+  return undefined;
+};
+let appContainer = document.currentScript && document.currentScript.parentElement;
+
+const appElem = document.createElement('div');
+if (appContainer) {
+  appContainer.appendChild(appElem);
+}
+appElem.classList.add('typst-app');
+
+function getViewport(appElem) {
+  const domScale = 1.5;
+  const appPos = appElem.getBoundingClientRect();
+  const left = appPos.left;
+  const top = -appPos.top;
+  const right = window.innerWidth;
+  const bottom = window.innerHeight - appPos.top;
+  const rect = {
+    x: 0,
+    y: top / domScale,
+    width: Math.max(right - left, 0) / domScale,
+    height: Math.max(bottom - top, 0) / domScale,
+  };
+  if (rect.width <= 0 || rect.height <= 0) {
+    rect.x = rect.y = rect.width = rect.height = 0;
+  }
+  // console.log('ccc', basePos, appPos, rect);
+  return rect;
+}
+
+// prefetch
+let tsModule = fetch(`/typst/typst_ts_renderer_bg.wasm`);
+let tsData = fetch(`/artifacts/typst/source/_posts/concrete-math-practices-1.multi.sir.in`);
+
+let prevHovers = void 0;
+function updateHovers(elems) {
+  if (prevHovers) {
+    for (const h of prevHovers) {
+      h.classList.remove("focus");
+    }
+  }
+  prevHovers = elems;
+}
+let globalSemaLabels = [];
+
+document.ready(() => {
+  let plugin = window.TypstRenderModule.createTypstRenderer();
+  console.log(plugin);
+
+  let session = undefined;
+
+  let initialRender = true;
+  const typstBindCustomSemantics = async (root, svg, semantics) => {
+    console.log('bind custom semantics', root, svg, semantics);
+    const customs = await plugin.getCustomV1({
+      renderSession: session,
+    });
+    const semaLabel = customs.find(k => k[0] === 'sema-label');
+    if (semaLabel) {
+      const labelBin = semaLabel[1];
+      const labels = JSON.parse(dec.decode(labelBin));
+      globalSemaLabels = labels.map(([label, pos]) => {
+        const [_, u, x, y] = pos.split(/[pxy]/).map(Number.parseFloat);
+        return [encodeURIComponent(label), svg, [u, x, y]];
+      });
+    }
+
+    // postProcessCrossLinks(semantics);
+
+    // todo: out of page
+    if (window.location.hash) {
+      // console.log('hash', window.location.hash);
+
+      // parse location.hash = `loc-${page}x${x.toFixed(2)}x${y.toFixed(2)}`;
+      const hash = window.location.hash;
+      const firstSep = hash.indexOf('-');
+      // console.log('jump label', window.location.hash, firstSep, globalSemaLabels);
+      if (firstSep != -1 && hash.slice(0, firstSep) === '#label') {
+        const labelTarget = hash.slice(firstSep + 1);
+        for (const [label, dom, pos] of globalSemaLabels) {
+          if (label === labelTarget) {
+            const [_, x, y] = pos;
+            // console.log('jump label', label, pos);
+            window.handleTypstLocation(dom, 1, x, y, {
+              behavior: initialRender ? 'smooth' : 'instant',
+            });
+            initialRender = false;
+            break;
+          }
+        }
+      }
+    }
+  };
+
+  window.typstBindCustomSemantics = (root, svg, semantics) =>
+    setTimeout(() => typstBindCustomSemantics(root, svg, semantics), 0);
+
+  const baseHandleTypstLocation = window.handleTypstLocation;
+  window.handleTypstLocation = (elem, page, x, y, options) => {
+    const docRoot = findAncestor(elem, 'typst-app');
+    if (!docRoot) {
+      console.warn('no typst-app found', elem);
+      return;
+    }
+
+    console.log(docRoot);
+    options = options || {};
+    options.isDom = true;
+
+    for (const h of docRoot.children) {
+      if (h.classList.contains('typst-dom-page')) {
+        const idx = Number.parseInt(h.getAttribute('data-index'));
+        if (idx + 1 === page) {
+          const svg = h.querySelector('.typst-svg-page');
+          if (svg) {
+            baseHandleTypstLocation(svg, page, x, y, options);
+          }
+          return;
+        }
+      }
+    }
+  };
+
+  window.assignSemaHash = (u, x, y) => {
+    // console.log(`find labels ${u}:${x}:${y} in`, globalSemaLabels);
+    for (const [label, dom, pos] of globalSemaLabels) {
+      const [u1, x1, y1] = pos;
+      if (u === u1 && Math.abs(x - x1) < 0.01 && Math.abs(y - y1) < 0.01) {
+        location.hash = `label-${label}`;
+        // const domX1 = x1 * dom.viewBox.baseVal.width;
+        // const domY1 = y1 * dom.viewBox.baseVal.height;
+
+        window.typstCheckAndRerender?.(false, new Error('assignSemaHash')).then(() => {
+          const width = dom.viewBox.baseVal.width;
+          const height = dom.viewBox.baseVal.height;
+          const bbox = dom.getBoundingClientRect();
+          const domX1 = bbox.left + (x1 / width) * bbox.width;
+          const domY1 = bbox.top + (y1 / height) * bbox.height;
+
+          const lnk = findLinkInSvg(dom, [domX1, domY1]);
+          if (!lnk) {
+            return;
+          }
+          // const semaLinkLocation = document.getElementById(`typst-label-${label}`);
+          const relatedElems = window.typstGetRelatedElements(lnk);
+          for (const h of relatedElems) {
+            h.classList.add('focus');
+          }
+          updateHovers(relatedElems);
+          return;
+        });
+        return;
+      }
+    }
+    updateHovers([]);
+    // todo: multiple documents
+    location.hash = `loc-${u}x${x.toFixed(2)}x${y.toFixed(2)}`;
+  };
+
+  let initialized = plugin.init({ getModule: () => tsModule });
+
+  initialized = initialized
+    .then(() => tsData)
+    .then(response => response.arrayBuffer())
+    .then(buffer => new Uint8Array(buffer));
+
+  initialized = initialized.then(artifactData => {
+    return new Promise(resolve => {
+      plugin.runWithSession(
+        ses =>
+          new Promise(dispose => {
+            // ignore dispose
+            void dispose;
+
+            session = ses;
+
+            const t = performance.now();
+            const dom = plugin.renderDom({
+              renderSession: ses,
+              container: appElem,
+              pixelPerPt: 4.5,
+              domScale: 1.5,
+            });
+
+            dom.then((dom) => {
+              console.log(dom);
+              dom.addChangement(['new', artifactData]);
+              console.log('render time!!!!!!!!!', performance.now() - t);
+
+              window.addEventListener('resize', () => dom.addViewportChange());
+              window.addEventListener('scroll', () => dom.addViewportChange());
+            })
+          }),
+      );
+    });
+  });
+});
+</script><h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
   clientID: 'db399ba6c4ddbf739bef',
   clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
   repo: 'gitalk-comments',
