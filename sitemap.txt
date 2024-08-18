@@ -34,12 +34,12 @@ https://paran3xus.github.io/tags/clash/
 https://paran3xus.github.io/tags/cpp/
 https://paran3xus.github.io/tags/unicode/
 https://paran3xus.github.io/tags/gnome/
+https://paran3xus.github.io/tags/nodejs/
+https://paran3xus.github.io/tags/gpt/
 https://paran3xus.github.io/tags/python/
 https://paran3xus.github.io/tags/ai/
 https://paran3xus.github.io/tags/pytorch/
 https://paran3xus.github.io/tags/onnx/
-https://paran3xus.github.io/tags/nodejs/
-https://paran3xus.github.io/tags/gpt/
 https://paran3xus.github.io/tags/proxy/
 https://paran3xus.github.io/tags/cloudflare/
 https://paran3xus.github.io/tags/telegram/
