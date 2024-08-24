@@ -222,7 +222,7 @@ path.outline_glyph {
 <a class="menubar-link" href="/tags">Tags</a></li><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><a class="menubar-link" href="/about"><span>关于</span></a></li></ul><div class="menu-search-box search-button"><div>搜索</div>
 <i class="icon icon-search"></i></div></div></div><div class="main" data-page="post"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2024/08/01/challenges-faced-using-nvidia-hyprland-arch/">NVIDIA + Hyprland + Arch 踩坑</a></h1></header><div class="post-meta"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2024-08-01 23:11:28" datetime="2024-08-01T15:11:28.000Z">2024-08-01</time></div>|
 <div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/arch/" rel="tag">arch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hyprland/" rel="tag">hyprland</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wayland/" rel="tag">wayland</a></li></ul></div>
-<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共1,308字。</div>
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共1,312字。</div>
 <div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
 
 |
@@ -278,7 +278,8 @@ path.outline_glyph {
 <h2 id="float-窗口关闭时-focus-不会自动转移到鼠标所在的位置">float 窗口关闭时 focus 不会自动转移到鼠标所在的位置</h2>
 <p>我觉得这是个很典型的 Bug, 但是似乎 Hyprland 到现在也没有修复? 我也没有找到相关 issue.</p>
 <h2 id="chromium-首屏有概率渲染错乱">Chromium 首屏有概率渲染错乱</h2>
-<p>我没有找到相关 issue, 也没有修复的头绪.</p>
+<p>在 <code>~/.config/chromium-flags.conf</code> 文件中指定</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--enable-wayland-ime</span><br><span class="line">--ozone-platform=wayland</span><br><span class="line">--use-angle=vulkan</span><br></pre></td></tr></table></figure>
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
