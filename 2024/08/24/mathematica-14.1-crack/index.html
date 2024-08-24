@@ -1,0 +1,707 @@
+<html lang="zh"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="写点小东西，主要自己看"/><meta name="keyword"/><title>Wolfram Mathematica 14.1 Key Generator
+-
+ParaN3xus的Blog
+-
+
+</title><link rel="icon" href="/img/favicon.ico"/>
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet" href="/css/helpers.css">
+
+<script src="/js/clipboard/clipboard.min.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+<script async="async" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- hexo injector head_end start --><style>.typst-app {
+  margin: 0;
+  --typst-dom-scale: 1;
+  /* --typst-dom-scale: 1.5; */
+  margin: 5px;
+}
+
+.typst-dom-page {
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  --data-text-width: calc(1px * var(--typst-dom-scale));
+  --data-text-height: calc(1px * var(--typst-dom-scale));
+}
+
+.typst-back-canvas {
+  position: absolute;
+  z-index: -1;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  pointer-events: none;
+}
+
+.typst-svg-page {
+  position: absolute;
+  z-index: 0;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+}
+
+.typst-html-semantics {
+  position: absolute;
+  z-index: 2;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  color: transparent;
+  font-family: monospace;
+  white-space: pre;
+  opacity: 0.62;
+}
+
+.typst-html-semantics span {
+  color: transparent;
+  font-family: monospace;
+  transform-origin: left top;
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  top: 0;
+}
+
+.typst-content-hint {
+  position: absolute;
+  display: inline-block;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.typst-html-semantics a {
+  position: absolute;
+  display: inline-block;
+}
+
+/* set transparent itself */
+.typst-content-group {
+  pointer-events: visible;
+}
+
+.typst-html-semantics span::-moz-selection {
+  color: transparent;
+  background: #7db9de;
+}
+
+.typst-html-semantics span::selection {
+  color: transparent;
+  background: #7db9de;
+}
+
+.typst-html-semantics *::-moz-selection {
+  color: transparent;
+  background: transparent;
+}
+
+.typst-html-semantics *::selection {
+  color: transparent;
+  background: transparent;
+}
+
+.typst-content-fallback {
+  color: transparent;
+  background: transparent;
+}
+
+.pseudo-link,
+.typst-text {
+  pointer-events: none;
+}
+
+.tsel span,
+.tsel {
+  left: 0;
+  position: fixed;
+  text-align: justify;
+  white-space: pre;
+  width: 100%;
+  height: 100%;
+  text-align-last: justify;
+  color: transparent;
+}
+.tsel span::-moz-selection,
+.tsel::-moz-selection {
+  color: transparent;
+  background: #7db9dea0;
+}
+.tsel span::selection,
+.tsel::selection {
+  color: transparent;
+  background: #7db9dea0;
+}
+.pseudo-link {
+  fill: transparent;
+  cursor: pointer;
+  pointer-events: all;
+}
+svg {
+  fill: none;
+}
+
+.outline_glyph path,
+path.outline_glyph {
+  fill: var(--glyph_fill);
+  stroke: var(--glyph_stroke);
+}
+
+.outline_glyph path,
+path.outline_glyph {
+  transition: 0.2s fill stroke;
+}
+.hover .typst-text {
+  --glyph_fill: #66bab7;
+  --glyph_stroke: #66bab7;
+}
+
+.typst-jump-ripple,
+.typst-debug-react-ripple {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  position: absolute;
+  border-radius: 50%;
+}
+.typst-jump-ripple {
+  border: 1px solid #66bab7;
+}
+.typst-debug-react-ripple {
+  border: 1px solid #cb1b45;
+}
+@keyframes typst-jump-ripple-effect {
+  to {
+    width: 10vw;
+    height: 10vw;
+    opacity: 0.01;
+    margin: -5vw;
+  }
+}
+@keyframes typst-debug-react-ripple-effect {
+  to {
+    width: 3vw;
+    height: 3vw;
+    opacity: 0.01;
+    margin: -1.5vw;
+  }
+}
+</style>
+<script>/// https://segmentfault.com/a/1190000016574288
+(function () {
+  var ie = !!(window.attachEvent && !window.opera);
+  var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && RegExp.$1 < 525;
+  var fn = [];
+  var run = function () {
+    for (var i = 0; i < fn.length; i++) fn[i]();
+  };
+  var d = document;
+  d.ready = function (f) {
+    if (!ie && !wk && d.addEventListener) return d.addEventListener('DOMContentLoaded', f, false);
+    if (fn.push(f) > 1) return;
+    if (ie)
+      (function () {
+        try {
+          d.documentElement.doScroll('left');
+          run();
+        } catch (err) {
+          setTimeout(arguments.callee, 0);
+        }
+      })();
+    else if (wk)
+      var t = setInterval(function () {
+        if (/^(loaded|complete)$/.test(d.readyState)) clearInterval(t), run();
+      }, 0);
+  };
+})();
+</script>
+<script type="module" src="/typst/typst-main.js"></script><script src="/typst/svg-utils.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div class="loading-wrapper" data-loading="data-loading"><div class="loading"><span></span><span></span><span></span></div></div><div class="page" data-filter="data-filter"><div class="head" data-show="data-show"><header class="head-header"><div class="head-author"><a class="head-author-link" href="/">ParaN3xus的Blog</a></div><div class="head-right"><button class="bar-wrap" id="bar-wrap-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><div class="head-item"><a class="search-button head-item-link"><span>搜索</span>
+<i class="icon icon-search"></i></a></div><div class="head-item"><a class="head-item-link" href="/about">关于</a></div></div></header>
+<div class="menubar-head" id="menubar"><ul class="menubar-ul"><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><i class="icon icon-archive"></i>
+<a class="menubar-link" href="/archives">Archives</a></li><li class="menubar-item"><i class="icon icon-tags"></i>
+<a class="menubar-link" href="/tags">Tags</a></li><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><a class="menubar-link" href="/about"><span>关于</span></a></li></ul><div class="menu-search-box search-button"><div>搜索</div>
+<i class="icon icon-search"></i></div></div></div><div class="main" data-page="post"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2024/08/24/mathematica-14.1-crack/">Wolfram Mathematica 14.1 Key Generator</a></h1></header><div class="post-meta"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2024-08-24 15:27:31" datetime="2024-08-24T07:27:31.000Z">2024-08-24</time></div>|
+<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crack/" rel="tag">crack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/free-ride/" rel="tag">free-ride</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematica/" rel="tag">mathematica</a></li></ul></div>
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共1,403字。</div>
+<div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
+
+|
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><p>最近 Wolfram 发布了新的 Mathematica 14.1 版本, 打破了之前不需要改注册机就能一直用的局面, 不过所幸毛子又发了新的<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>, 目测好像就是更新了以下 magic 值, 算法并无大的改动.</p>
+<p>我费了一番力气才找到, 为了方便他人搬运到这里, 原版链接在脚注<sup class="footnote-ref"><a href="#fn1" id="fnref1:1">[1:1]</a></sup>已附上.</p>
+<p>使用方法和以前一样, 下方的激活码处保留了一个默认值, 如果手动删除留空则会随机生成.</p>
+<script>
+  var magicNumbers141 = [
+      // Mathematica 14.1+
+      0xD1CF   // 14.1 - 14.1+
+  ];
+
+  var magicNumbersMath130 = [
+      // Mathematica 13.0+
+      0x5417,  // 13.0 - 14.1+
+      0xB013,  // 13.0 - 14.1+
+      0xD54F,  // 13.0 - 14.1+
+      0x66C0,  // 13.0 - 14.1+
+      0x22DD,  // 13.0 - 14.1+
+      0xCD2D,  // 13.0 - 14.1+
+      0xB4D0   // 13.0 - 14.1+
+  ];
+
+  var magicNumbersMath120 = [
+      // Mathematica 12.0+
+      0xE756,  // 12.0 - 14.1+
+      0x8C68,  // 12.0 - 14.1+
+      0x8250,  // 12.0 - 14.1+
+      0xABEB,  // 12.0 - 14.1+
+      0x60F0,  // 12.0 - 14.1
+      0x8E3C   // 12.0 - 14.0
+  ];
+
+  var magicNumbersMath102 = [
+      // Mathematica 10.2+
+      0x44F1,  // 10.2 - 13.3
+      0x29C2,  // 10.2 - 13.2
+      0xEE71,  // 10.2 - 13.1
+      0xDB75,  // 10.2 - 13.0
+      0xD227,  // 10.2 - 12.3
+      0x2FDB   // 10.2 - 12.2
+  ];
+
+  var magicNumbersMath100 = [
+      // Mathematica 10.0+
+      0xA439,  // 10.0 - 12.0
+      0xE4A8,  // 10.0 - 12.1
+      0xA68B,  // 10.0 - 12.0
+      0x29F8,  // 10.0 - 11.3
+      0x6A91,  // 10.0 - 11.2
+      0x42DD,  // 10.0 - 11.1
+      0x25DB   // 10.0 - 11.0
+  ];
+
+  var magicNumbersSM130 = [
+      // System Modeler 13.0+
+      0x8C72,  // 13.0 - 14.1+
+      0x4209,  // 13.0 - 14.1+
+      0x73EE,  // 13.0 - 14.1+
+      0x64EC,  // 13.0 - 14.1+
+      0x7C53   // 13.0 - 14.1+
+  ];
+
+  var magicNumbersSM050 = [
+      // System Modeler  5.0+
+      0x5770,  //  5.0 - 14.1+  
+      0x7C91,  //  5.0 - 14.1+  
+      0xEEFE,  //  5.0 - 14.1+  
+      0x1361,  //  5.0 - 14.1  
+      0x755E,  //  5.0 - 14.0  
+      0xA5CE,  //  5.0 - 13.3  
+      0xF536,  //  5.0 - 13.2  
+      0x1330,  //  5.0 - 13.1 
+      0xBF47   //  5.0 - 13.0
+  ];
+
+  var magicNumbersSM040 = [
+      // System Modeler  4.0+
+      0x6188,  //  4.0 - 12.3
+      0xAB0B,  //  4.0 - 12.2  
+      0xB4D3,  //  4.0 - 12.1  
+      0x47C5,  //  4.0 - 12.0  
+      0x81DD,  //  4.0 -  5.1? 
+      0x8330,  //  4.0 -  5.0 
+      0x72C4,  //  4.0 -  4.2 
+      0x2F33,  //  4.0 -  4.2
+      0x6897,  //  4.0 -  4.1
+      0x15BF   //  4.0
+  ];
+/*
+  var magicNumbersMathLM = [
+      // MathLM
+      0x72A4,
+      0x29A5,
+      0x140A,
+      0x3FD1,
+      0x452D,
+      0x541A,
+      0x3575,
+      0x7F8C,
+      0x6587,
+      0x5B29 
+  ];
+*/
+  var defaultActivationKey = '3893-9258-K6XJLE';
+
+  function genActivationKey() {
+      s = "";
+      for (let i = 0; i < 14; i++) {
+          s += Math.floor(Math.random() * 10);
+          if (i === 3 || i === 7)
+              s += "-";
+      }
+      return s;
+  }
+
+  function genKeyValStr(mathID, activationKey=defaultActivationKey, maxLicenseProcessesSubprocesses="", licenseType="", licenseExpirationDate="", licenseClass="") {
+      var keyValStr = "";
+      if (typeof mathID !== "undefined" && mathID.length != 0)
+      {
+          keyValStr = mathID;
+          if (typeof licenseExpirationDate           !== "undefined" && licenseExpirationDate          .length != 0) {keyValStr += "@" + licenseExpirationDate          };
+          if (typeof maxLicenseProcessesSubprocesses !== "undefined" && maxLicenseProcessesSubprocesses.length != 0) {keyValStr += ":" + maxLicenseProcessesSubprocesses};
+          if (typeof licenseClass                    !== "undefined" && licenseClass                   .length != 0) {keyValStr += "*" + licenseClass                   };
+          if (typeof licenseType                     !== "undefined" && licenseType                    .length != 0) {keyValStr += "$" + licenseType                    };
+          if (typeof activationKey                   !== "undefined" && activationKey                  .length != 0) {keyValStr += "&" + activationKey                  }
+          else                                                                                                       {keyValStr += "&" + defaultActivationKey           };
+
+      };
+      return keyValStr;
+  };
+
+  function keyValStr2licenseExpirationDate(keyValStr) {
+      var licenseExpirationDate = "";
+      var index1 = keyValStr.indexOf("@");
+      var index2 = keyValStr.indexOf(":");
+      var index3 = keyValStr.indexOf("*");
+      var index4 = keyValStr.indexOf("$");
+      var index5 = keyValStr.indexOf("&");
+      if (index1 >= 0) {
+          if        (index2 >= 0) {
+              licenseExpirationDate = keyValStr.substring(index1 + 1, index2);
+          } else if (index3 >= 0) {
+              licenseExpirationDate = keyValStr.substring(index1 + 1, index3);
+          } else if (index4 >= 0) {
+              licenseExpirationDate = keyValStr.substring(index1 + 1, index4);
+          } else if (index5 >= 0) {
+              licenseExpirationDate = keyValStr.substring(index1 + 1, index5);
+          };
+      };
+      return licenseExpirationDate;
+  };
+
+  function keyValStr2maxLicenseProcessesSubprocesses(keyValStr) {
+      var maxLicenseProcessesSubprocesses = "";
+      var index2 = keyValStr.indexOf(":");
+      var index3 = keyValStr.indexOf("*");
+      var index4 = keyValStr.indexOf("$");
+      var index5 = keyValStr.indexOf("&");
+      if (index2 >= 0) {
+          if        (index3 >= 0) {
+              maxLicenseProcessesSubprocesses = keyValStr.substring(index2 + 1, index3);
+          } else if (index4 >= 0) {
+              maxLicenseProcessesSubprocesses = keyValStr.substring(index2 + 1, index4);
+          } else if (index5 >= 0) {
+              maxLicenseProcessesSubprocesses = keyValStr.substring(index2 + 1, index5);
+          };
+      };
+      return maxLicenseProcessesSubprocesses;
+  };
+
+  function keyValStr2licenseClass(keyValStr) {
+      var licenseClass = "";
+      var index3 = keyValStr.indexOf("*");
+      var index4 = keyValStr.indexOf("$");
+      var index5 = keyValStr.indexOf("&");
+      if (index3 >= 0) {
+          if        (index4 >= 0) {
+              licenseClass = keyValStr.substring(index3 + 1, index4);
+          } else if (index5 >= 0) {
+              licenseClass = keyValStr.substring(index3 + 1, index5);
+          };
+      };
+      return licenseClass;
+  };
+
+  function keyValStr2licenseType(keyValStr) {
+      var licenseType = "";
+      var index4 = keyValStr.indexOf("$");
+      var index5 = keyValStr.indexOf("&");
+      if (index4 >= 0) {
+          if        (index5 >= 0) {
+              licenseType = keyValStr.substring(index4 + 1, index5);
+          };
+      };
+      return licenseType;
+  };
+
+  function testSalt(n, byte, c) {
+      for (var bitIndex = 0; bitIndex <= 7; bitIndex += 1) {
+          var bit = (byte >> bitIndex) & 1;
+          if (bit + ((n - bit) & ~1) == n) {
+              n = (n - bit) >> 1;
+          } else {
+              n = ((c - bit) ^ n) >> 1;
+          };
+      };
+
+      return n;
+  };
+
+  function genPassword(keyValStr, salt) {
+      var licenseExpirationDate           = keyValStr2licenseExpirationDate          (keyValStr);
+      var maxLicenseProcessesSubprocesses = keyValStr2maxLicenseProcessesSubprocesses(keyValStr);
+      var licenseClass                    = keyValStr2licenseClass                   (keyValStr);
+      var licenseType                     = keyValStr2licenseType                    (keyValStr);
+
+      salt = parseInt(salt);
+      var uuid = keyValStr.split('').map(function(x){return x.charCodeAt()});
+      var salt1 = salt;
+      for (var byteIndex = uuid.length - 1; byteIndex >= 0; byteIndex -= 1) {
+          salt1 = testSalt(salt1, uuid[byteIndex], 0x105C3);
+      };
+
+/*
+      var offset1 = 0;
+      while (testSalt(testSalt(salt1, offset1 & 0xFF, 0x105C3), offset1 >> 8, 0x105C3) !== 0xA5B6) {
+          offset1 ++;
+          if (offset1 >= 0xFFFF) {
+              return '';
+          }
+      }
+*/
+      salt1 = salt1 ^ 0xCEDF;
+
+      salt1 = Math.trunc(((salt1 + 0x72FA) & 0xFFFF) * 99999 / 0xFFFF);
+      var offset1 = '0000' + salt1;
+      offset1 = offset1.substring(offset1.length - 5);
+      var salt2 = parseInt(offset1.substring(0, 2) + offset1.substring(3, 5) + offset1.substring(2, 3));
+      salt2 = Math.trunc((salt2 / 99999.0) * 0xFFFF, 10) + 1;
+      salt2 = testSalt(testSalt(0, salt2 & 0xFF, 0x1064B), salt2 >> 8, 0x1064B);
+      for (var i = uuid.length - 1; i >= 0; i -= 1) {
+          salt2 = testSalt(salt2, uuid[i], 0x1064B);
+      };
+
+/*
+      var offset2 = 0;
+      while(testSalt(testSalt(salt2, offset2 & 0xFF, 0x1064B),
+                      offset2 >> 8, 0x1064B) !== 0xA5B6) {
+          offset2 += 1;
+          if (offset2 >= 0xFFFF) { return ''; }
+      }
+*/
+      salt2 = salt2 ^ 0xEF22;
+
+      salt2 = Math.trunc((salt2 & 0xFFFF) * 99999 / 0xFFFF);
+      var offset2 = '0000' + salt2;
+      offset2 = offset2.substring(offset2.length - 5);
+      var password = [
+          offset2.charAt(3),
+          offset1.charAt(3),
+          offset1.charAt(1),
+          offset1.charAt(0),
+          '-',
+          offset2.charAt(4),
+          offset1.charAt(2),
+          offset2.charAt(0),
+          '-',
+          offset2.charAt(2),
+          offset1.charAt(4),
+          offset2.charAt(1)
+      ].join('');
+      if ((maxLicenseProcessesSubprocesses.length > 0) || (licenseType.length > 0) || (licenseExpirationDate.length > 0) || (licenseClass.length > 0)) {password += ":" + maxLicenseProcessesSubprocesses};
+      if (                                                (licenseType.length > 0) || (licenseExpirationDate.length > 0) || (licenseClass.length > 0)) {password += ":" + licenseType                    };
+      if (                                                                            (licenseExpirationDate.length > 0) || (licenseClass.length > 0)) {password += ":" + licenseExpirationDate          };
+      if                                                                                                                    (licenseClass.length > 0)  {password += ":" + licenseClass                   };
+      return password;
+  };
+
+  function keygenMathematicaPlayerProSM(magicNumbers, mathID, activationKey="", maxLicenseProcessesSubprocesses="", licenseType="", licenseExpirationDate="", licenseClass="") {
+      var keyValStr = genKeyValStr(mathID, activationKey, maxLicenseProcessesSubprocesses, licenseType, licenseExpirationDate, licenseClass);
+      return magicNumbers
+          .map(function(magicNumber){return genPassword(                       keyValStr, magicNumber)})
+          .filter(function(password){return password !== ''});
+  };
+
+  function printPass(documentTag, outputInnerHTML, passwordText) {
+      var outputMathLMEl;
+      var passwordMathLMEl;
+      var passwordInnerCodeMathLMEl;
+
+      outputMathLMEl = document.querySelector(documentTag);
+      outputMathLMEl.innerHTML = outputInnerHTML;
+      outputMathLMEl.append(document.createElement("br"));
+      passwordMathLMEl = document.createElement("p");
+      passwordInnerCodeMathLMEl = document.createElement("code");
+      passwordMathLMEl.append(passwordInnerCodeMathLMEl);
+      passwordInnerCodeMathLMEl.innerText = passwordText;
+      outputMathLMEl.append(passwordMathLMEl);
+  };
+
+  function genPass(event) {
+      event.preventDefault();
+
+      var formEl = document.querySelector('#form');
+      if(formEl.reportValidity && !formEl.reportValidity()) { return; }
+      var mathID = document.querySelector('#mathid').value;
+      var activationKey = document.querySelector('#activation-key').value 
+      if(!activationKey) {
+        activationKey = genActivationKey();
+        document.querySelector('#activation-key').value  = activationKey;
+      }
+
+
+      printPass(
+          '#output141',
+          'Password for Mathematica Enterprise 14.1+ or System Modeler 14.1+:',
+          keygenMathematicaPlayerProSM(magicNumbers141, mathID, activationKey, "", "803000", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputMath130',
+          'Password for Mathematica Enterprise 13.0+ (also work for System Modeler 14.1+):',
+          keygenMathematicaPlayerProSM(magicNumbersMath130, mathID, activationKey, "", "803000", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputMath120',
+          'Password for Mathematica Enterprise 12.0+ (the first 4 also work for System Modeler 14.1+):',
+          keygenMathematicaPlayerProSM(magicNumbersMath120, mathID, activationKey, "", "803000", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputMath102',
+          'Password for Mathematica Enterprise 10.2+:',
+          keygenMathematicaPlayerProSM(magicNumbersMath102, mathID, activationKey, "", "3000", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputMath100',
+          'Password for Mathematica Enterprise 10.0+:',
+          keygenMathematicaPlayerProSM(magicNumbersMath100, mathID, activationKey, "", "3000", "", "").join('\n')
+      );
+
+
+      printPass(
+          '#outputWPP130',
+          'Password for Player Pro 13.0+:',
+          keygenMathematicaPlayerProSM(magicNumbersMath130, mathID, activationKey, "", "40", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputWPP120',
+          'Password for Player Pro 12.0+:',
+          keygenMathematicaPlayerProSM(magicNumbersMath120, mathID, activationKey, "", "40", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputWPP102',
+          'Password for Player Pro 10.2+:',
+          keygenMathematicaPlayerProSM(magicNumbersMath102, mathID, activationKey, "", "40", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputWPP100',
+          'Password for Player Pro 10.0+:',
+          keygenMathematicaPlayerProSM(magicNumbersMath100, mathID, activationKey, "", "40", "", "").join('\n')
+      );
+
+
+      printPass(
+          '#outputSM130',
+          'Password for System Modeler 13.0+ (also work for Wolfram App 14.1+):',
+          keygenMathematicaPlayerProSM(magicNumbersSM130, mathID, activationKey, "", "803000", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputSM050',
+          'Password for System Modeler 5.0+ (the first 3 also work for Wolfram App 14.1+):',
+          keygenMathematicaPlayerProSM(magicNumbersSM050, mathID, activationKey, "", "803000", "", "").join('\n')
+      );
+
+      printPass(
+          '#outputSM040',
+          'Password for System Modeler 4.0+:',
+          keygenMathematicaPlayerProSM(magicNumbersSM040, mathID, activationKey, "", "", "", "").join('\n')
+      );
+  };
+</script>
+<style>
+  code {
+    background: #efefef;
+    color: #000;
+    color: var(--code);
+    padding: 2.5px 5px;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+  
+  p > code {
+    padding: 10px;
+    display: block;
+    overflow-x: auto;
+    text-indent: 0em;
+  }
+</style>
+<form id="form">
+    <fieldset>
+        <legend> 密钥生成器 </legend>
+        <label for="mathid">MathID: </label>
+        <input type="text" id="mathid" required pattern="\d{4}-\d{5}-\d{5}"> <br>
+        <label for="activation-key">激活码: </label>
+        <input type="text" id="activation-key" value="3893-9258-K6XJLE"> <br>
+        <button id="button" onclick="genPass(event)">生成密钥</button>
+    </fieldset>
+</form>
+<div id="output141"></div>
+<div id="outputMath130"></div>
+<div id="outputMath120"></div>
+<div id="outputMath102"></div>
+<div id="outputMath100"></div>
+<div id="outputWPP130"></div>
+<div id="outputWPP120"></div>
+<div id="outputWPP102"></div>
+<div id="outputWPP100"></div>
+<div id="outputSM130"></div>
+<div id="outputSM050"></div>
+<div id="outputSM040"></div>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://softoroom.org/ptopic79256.html">https://softoroom.org/ptopic79256.html</a> <a href="#fnref1" class="footnote-backref">↩︎</a> <a href="#fnref1:1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
+  clientID: 'db399ba6c4ddbf739bef',
+  clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
+  repo: 'gitalk-comments',
+  owner: 'ParaN3xus',
+  admin: 'ParaN3xus'.split(','),
+  id: md5(window.location.pathname),
+  distractionFreeMode: false  // Facebook-like distraction free mode
+});
+window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><div class="footer-content"><div class="footer-links"><div class="footer-links-column"><p><a title="sjfh's Homepage" target="_blank" rel="noopener" href="https://sjfh.top/">sjfh's Homepage</a></p></div></div><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
+PV
+</span><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv">?</span>
+UV</span></div>
+
+Copyright &copy;
+2023<span class="time-divide">-</span>2024
+ParaN3xus.
+
+Power by
+<a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>
+and
+<a href="https://github.com/Cerallin/hexo-theme-yuzu" target="_blank" rel="external nofollow" title="v3.2.4">Theme Yuzu</a>.</div></div></footer>
+<script>window.config = {
+  url_root: '/',
+  meta_path: 'meta.json',
+};
+</script>
+<script src="/js/theme/back-to-top.js"></script>
+
+
+<script src="/js/theme/clipboard.js"></script>
+
+
+<script src="/js/theme/loading.js"></script>
+
+
+<script src="/js/theme/navbar.js"></script>
+
+<script src="/js/theme/search.js"></script>
+
+<script src="/js/theme/toc.js"></script>
+<script>window.onload = function () {
+  for (const moduleName in Theme) {
+    const module = Theme[moduleName];
+    module.register();
+  }
+};</script></div><div class="search-modal" id="search-modal"><div class="card"><div class="card-head"><div class="search-box"><input class="search-input" id="search-input" placeholder="搜索"/><div class="search-button" id="search-button"><div class="icon icon-search"></div></div></div><div class="close-button"><div class="icon icon-x"></div></div></div><div class="card-body"><div class="search-count">共<span id="search-count-num">0</span>条搜索结果。</div><div class="search-result" id="search-result"></div></div></div></div></body></html>
