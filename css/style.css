@@ -379,7 +379,7 @@ figure.highlight > .clipboard-btn .icon:before {
 }
 .post p code {
   color: #cdcdcd;
-  background-color: #ceceff;
+  background-color: #33333e;
   vertical-align: middle;
   padding: 3px 0.4em;
   border-radius: 3px;

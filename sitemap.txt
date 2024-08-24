@@ -35,6 +35,9 @@ https://paran3xus.github.io/tags/clash/
 https://paran3xus.github.io/tags/cpp/
 https://paran3xus.github.io/tags/unicode/
 https://paran3xus.github.io/tags/gnome/
+https://paran3xus.github.io/tags/crack/
+https://paran3xus.github.io/tags/math/
+https://paran3xus.github.io/tags/mathematica/
 https://paran3xus.github.io/tags/nodejs/
 https://paran3xus.github.io/tags/gpt/
 https://paran3xus.github.io/tags/python/
@@ -47,7 +50,4 @@ https://paran3xus.github.io/tags/telegram/
 https://paran3xus.github.io/tags/roslyn/
 https://paran3xus.github.io/tags/net/
 https://paran3xus.github.io/tags/network/
-https://paran3xus.github.io/tags/math/
 https://paran3xus.github.io/tags/concrete-math/
-https://paran3xus.github.io/tags/crack/
-https://paran3xus.github.io/tags/mathematica/
