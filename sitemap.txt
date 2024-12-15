@@ -1,9 +1,10 @@
+https://paran3xus.github.io/2024/12/30/my-2024-with-typst/
+https://paran3xus.github.io/2024/08/01/challenges-faced-using-nvidia-hyprland-arch/
 https://paran3xus.github.io/2024/08/18/concrete-math-practices-1/
 https://paran3xus.github.io/2024/07/05/onnx-map-pytorch/
-https://paran3xus.github.io/2024/08/01/challenges-faced-using-nvidia-hyprland-arch/
 https://paran3xus.github.io/2024/08/24/mathematica-14.1-crack/
 https://paran3xus.github.io/about.html
-https://paran3xus.github.io/2023/10/03/tutorial-of-cracking-scut-campus-network/
+https://paran3xus.github.io/2023/10/03/tutorial-of-cracking-scut-campus-network%20copy/
 https://paran3xus.github.io/2024/02/10/serialize-roslyn-script-state/
 https://paran3xus.github.io/2023/07/14/cheat-sheet-for-avalonia/
 https://paran3xus.github.io/tags/index.html
@@ -51,3 +52,5 @@ https://paran3xus.github.io/tags/roslyn/
 https://paran3xus.github.io/tags/net/
 https://paran3xus.github.io/tags/network/
 https://paran3xus.github.io/tags/concrete-math/
+https://paran3xus.github.io/tags/typst/
+https://paran3xus.github.io/tags/summary/
