@@ -1,3 +1,4 @@
+https://paran3xus.github.io/2024/12/31/unimernet-src-analysis/
 https://paran3xus.github.io/2024/12/30/my-2024-with-typst/
 https://paran3xus.github.io/2024/08/01/challenges-faced-using-nvidia-hyprland-arch/
 https://paran3xus.github.io/2024/08/18/concrete-math-practices-1/
@@ -54,3 +55,4 @@ https://paran3xus.github.io/tags/network/
 https://paran3xus.github.io/tags/concrete-math/
 https://paran3xus.github.io/tags/typst/
 https://paran3xus.github.io/tags/summary/
+https://paran3xus.github.io/tags/ocr/

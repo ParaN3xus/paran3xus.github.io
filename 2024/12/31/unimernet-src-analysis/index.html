@@ -1,0 +1,288 @@
+<html lang="zh"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="写点小东西，主要自己看"/><meta name="keyword"/><title>UniMERNet 源码阅读
+-
+ParaN3xus的Blog
+-
+
+</title><link rel="icon" href="/img/favicon.ico"/>
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet" href="/css/helpers.css">
+
+<script src="/js/clipboard/clipboard.min.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+<script async="async" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- hexo injector head_end start --><style>.typst-app {
+  margin: 0;
+  --typst-dom-scale: 1;
+  /* --typst-dom-scale: 1.5; */
+  margin: 5px;
+}
+
+.typst-dom-page {
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  --data-text-width: calc(1px * var(--typst-dom-scale));
+  --data-text-height: calc(1px * var(--typst-dom-scale));
+}
+
+.typst-back-canvas {
+  position: absolute;
+  z-index: -1;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  pointer-events: none;
+}
+
+.typst-svg-page {
+  position: absolute;
+  z-index: 0;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+}
+
+.typst-html-semantics {
+  position: absolute;
+  z-index: 2;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  color: transparent;
+  font-family: monospace;
+  white-space: pre;
+  opacity: 0.62;
+}
+
+.typst-html-semantics span {
+  color: transparent;
+  font-family: monospace;
+  transform-origin: left top;
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  top: 0;
+}
+
+.typst-content-hint {
+  position: absolute;
+  display: inline-block;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.typst-html-semantics a {
+  position: absolute;
+  display: inline-block;
+}
+
+/* set transparent itself */
+.typst-content-group {
+  pointer-events: visible;
+}
+
+.typst-html-semantics span::-moz-selection {
+  color: transparent;
+  background: #7db9de;
+}
+
+.typst-html-semantics span::selection {
+  color: transparent;
+  background: #7db9de;
+}
+
+.typst-html-semantics *::-moz-selection {
+  color: transparent;
+  background: transparent;
+}
+
+.typst-html-semantics *::selection {
+  color: transparent;
+  background: transparent;
+}
+
+.typst-content-fallback {
+  color: transparent;
+  background: transparent;
+}
+
+.pseudo-link,
+.typst-text {
+  pointer-events: none;
+}
+
+.tsel span,
+.tsel {
+  left: 0;
+  position: fixed;
+  text-align: justify;
+  white-space: pre;
+  width: 100%;
+  height: 100%;
+  text-align-last: justify;
+  color: transparent;
+}
+.tsel span::-moz-selection,
+.tsel::-moz-selection {
+  color: transparent;
+  background: #7db9dea0;
+}
+.tsel span::selection,
+.tsel::selection {
+  color: transparent;
+  background: #7db9dea0;
+}
+.pseudo-link {
+  fill: transparent;
+  cursor: pointer;
+  pointer-events: all;
+}
+svg {
+  fill: none;
+}
+
+.outline_glyph path,
+path.outline_glyph {
+  fill: var(--glyph_fill);
+  stroke: var(--glyph_stroke);
+}
+
+.outline_glyph path,
+path.outline_glyph {
+  transition: 0.2s fill stroke;
+}
+.hover .typst-text {
+  --glyph_fill: #66bab7;
+  --glyph_stroke: #66bab7;
+}
+
+.typst-jump-ripple,
+.typst-debug-react-ripple {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  position: absolute;
+  border-radius: 50%;
+}
+.typst-jump-ripple {
+  border: 1px solid #66bab7;
+}
+.typst-debug-react-ripple {
+  border: 1px solid #cb1b45;
+}
+@keyframes typst-jump-ripple-effect {
+  to {
+    width: 10vw;
+    height: 10vw;
+    opacity: 0.01;
+    margin: -5vw;
+  }
+}
+@keyframes typst-debug-react-ripple-effect {
+  to {
+    width: 3vw;
+    height: 3vw;
+    opacity: 0.01;
+    margin: -1.5vw;
+  }
+}
+</style>
+<script>/// https://segmentfault.com/a/1190000016574288
+(function () {
+  var ie = !!(window.attachEvent && !window.opera);
+  var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && RegExp.$1 < 525;
+  var fn = [];
+  var run = function () {
+    for (var i = 0; i < fn.length; i++) fn[i]();
+  };
+  var d = document;
+  d.ready = function (f) {
+    if (!ie && !wk && d.addEventListener) return d.addEventListener('DOMContentLoaded', f, false);
+    if (fn.push(f) > 1) return;
+    if (ie)
+      (function () {
+        try {
+          d.documentElement.doScroll('left');
+          run();
+        } catch (err) {
+          setTimeout(arguments.callee, 0);
+        }
+      })();
+    else if (wk)
+      var t = setInterval(function () {
+        if (/^(loaded|complete)$/.test(d.readyState)) clearInterval(t), run();
+      }, 0);
+  };
+})();
+</script>
+<script type="module" src="/typst/typst-main.js"></script><script src="/typst/svg-utils.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div class="loading-wrapper" data-loading="data-loading"><div class="loading"><span></span><span></span><span></span></div></div><div class="page" data-filter="data-filter"><div class="head" data-show="data-show"><header class="head-header"><div class="head-author"><a class="head-author-link" href="/">ParaN3xus的Blog</a></div><div class="head-right"><button class="bar-wrap" id="bar-wrap-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><div class="head-item"><a class="search-button head-item-link"><span>搜索</span>
+<i class="icon icon-search"></i></a></div><div class="head-item"><a class="head-item-link" href="/about">关于</a></div></div></header>
+<div class="menubar-head" id="menubar"><ul class="menubar-ul"><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><i class="icon icon-archive"></i>
+<a class="menubar-link" href="/archives">Archives</a></li><li class="menubar-item"><i class="icon icon-tags"></i>
+<a class="menubar-link" href="/tags">Tags</a></li><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><a class="menubar-link" href="/about"><span>关于</span></a></li></ul><div class="menu-search-box search-button"><div>搜索</div>
+<i class="icon icon-search"></i></div></div></div><div class="main" data-page="post"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2024/12/31/unimernet-src-analysis/">UniMERNet 源码阅读</a></h1></header><div class="post-meta"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2024-12-31 18:06:20" datetime="2024-12-31T10:06:20.000Z">2024-12-31</time></div>|
+<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ai/" rel="tag">ai</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ocr/" rel="tag">ocr</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytorch/" rel="tag">pytorch</a></li></ul></div>
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共289字。</div>
+<div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
+
+|
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><p><a target="_blank" rel="noopener" href="https://github.com/opendatalab/UniMERNet">UniMerNet</a> 是一个针对数学公式的 TrOCR 模型. 基本上, 他是一个 <a target="_blank" rel="noopener" href="https://github.com/clovaai/donut">Donut</a> 的变体, 包含一个修改过的 Swin Encoder 和一个修改过的 BART Decoder.</p>
+<p>由于他们的官方代码大量从 transformers 库中复制, 所以非常混乱, 嵌套了数不清层的类, 所以专门写一下 Blog 记录我一中午的阅读成果.</p>
+<h2 id="类层次">类层次</h2>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">model:</span> <span class="string">unimernet.UniMERModel</span></span><br><span class="line">    <span class="attr">tokenizer:</span> <span class="string">encoder_decoder.DonutTokenizer</span></span><br><span class="line">    <span class="attr">model:</span> <span class="string">encoder_decoder.DonutEncoderDecoder</span></span><br><span class="line">        <span class="attr">model:</span> <span class="string">encoder_decoder.CustomVisionEncoderDecoderModel</span></span><br><span class="line">            <span class="attr">encoder:</span> <span class="string">encoder_decoder.VariableUnimerNetModel</span> <span class="string">(SwinModel</span> <span class="bullet">-</span> <span class="string">layernorm</span> <span class="string">+</span> <span class="string">*embeddings)</span></span><br><span class="line">                <span class="attr">num_layers:</span> <span class="string">int</span></span><br><span class="line">                <span class="attr">num_features:</span> <span class="string">int</span></span><br><span class="line">                <span class="attr">embeddings:</span> <span class="string">encoder_decoder.VariableUnimerNetEmbeddings</span> <span class="string">(SwinEmbeddings</span> <span class="string">+</span> <span class="string">*patch_embeddings</span> <span class="string">+</span> <span class="string">row_embeddings</span> <span class="string">+</span> <span class="string">column_embeddings</span> <span class="bullet">-</span> <span class="string">interpolate_pos_encoding)</span></span><br><span class="line">                    <span class="attr">patch_embeddings:</span> <span class="string">encoder_decoder.VariableUnimerNetPatchEmbeddings</span> <span class="string">(SwinPatchEmbeddings</span> <span class="string">+</span> <span class="string">StemLayer)</span></span><br><span class="line">                        <span class="attr">projection:</span> <span class="string">encoder_decoder.StemLayer</span> <span class="string">(FGE)</span></span><br><span class="line">                    <span class="attr">row_embeddings:</span> <span class="string">(1,</span> <span class="string">patch_grid[0]</span> <span class="string">+</span> <span class="number">1</span><span class="string">,</span> <span class="string">embed_dim)</span></span><br><span class="line">                    <span class="attr">column_embeddings:</span> <span class="string">(1,</span> <span class="string">patch_grid[1]</span> <span class="string">+</span> <span class="number">1</span><span class="string">,</span> <span class="string">embed_dim)</span></span><br><span class="line"></span><br><span class="line">                <span class="attr">encoder:</span> <span class="string">UnimerNetEncoder</span> <span class="string">(SwinEncoder</span> <span class="string">+</span> <span class="string">*UnimerNetStage)</span></span><br><span class="line">                    <span class="attr">layers:</span> [<span class="string">UnimerNetStage</span> <span class="string">(SwinStage</span> <span class="string">+</span> <span class="string">ConvEnhance)</span>]</span><br><span class="line">                        <span class="attr">blocks:</span> [<span class="string">UnimerNetLayer</span> <span class="string">(SwinLayer</span> <span class="string">+</span> <span class="string">ConvEnhance</span> <span class="string">+</span> <span class="string">shift_size=0)</span>]</span><br><span class="line">                            <span class="attr">shift_size:</span> <span class="number">0</span> <span class="string">(RSW)</span></span><br><span class="line">                            <span class="attr">layernorm_before:</span> <span class="string">LayerNorm</span></span><br><span class="line">                            <span class="attr">ce:</span> [<span class="string">ConvEnhance</span>] <span class="string">(CE)</span></span><br><span class="line">                            <span class="attr">attention:</span> <span class="string">SwinAttention</span></span><br><span class="line">                            <span class="attr">drop_path:</span> <span class="string">SwinDropPath</span></span><br><span class="line">                            <span class="attr">layernorm_after:</span> <span class="string">LayerNorm</span></span><br><span class="line">                            <span class="attr">intermediate:</span> <span class="string">SwinIntermediate</span></span><br><span class="line">                            <span class="attr">output:</span> <span class="string">SwinOutput</span></span><br><span class="line"></span><br><span class="line">                <span class="attr">pooler:</span> <span class="string">AdaptiveAvgPool1d</span></span><br><span class="line"></span><br><span class="line">            <span class="attr">decoder:</span> <span class="string">encoder_decoder.CustomMBartForCausalLM</span></span><br><span class="line">                <span class="attr">model.decoder:</span> <span class="string">modeling_unimernet_decoder.MBartDecoder</span> <span class="string">(or</span> <span class="string">CustomMBartDecoder)</span> <span class="string">(BardDecoder</span> <span class="bullet">-</span> <span class="string">spda</span> <span class="string">+</span> <span class="string">squeeze_attn</span> <span class="string">+</span> <span class="string">layernorm</span> <span class="string">+</span> <span class="string">count(todo,</span> <span class="string">currently</span> <span class="string">none))</span></span><br><span class="line">                    <span class="attr">embed_tokens:</span> <span class="string">BartScaledWordEmbedding</span></span><br><span class="line">                    <span class="attr">embed_positions:</span> <span class="string">BartLearnedPositionalEmbedding</span></span><br><span class="line">                    <span class="attr">layers:</span> [<span class="string">MBartDecoderLayer</span>]</span><br><span class="line">                        <span class="string">*_attn:</span> <span class="string">MBartSqueezeAttention</span> <span class="string">/</span> <span class="string">MBartFlashAttention2</span> <span class="string">(SA)</span> </span><br><span class="line">                    <span class="attr">layernorm_embedding:</span> <span class="string">LayerNorm</span> </span><br><span class="line">                    <span class="attr">layer_norm:</span> <span class="string">LayerNorm</span></span><br><span class="line"></span><br><span class="line"><span class="attr">processor:</span> <span class="string">unimernet.processors.formula_processor.FormulaImageEvalProcessor</span></span><br></pre></td></tr></table></figure>
+<p>上述层次图基本展示了重要功能模块的组成, 并标注了论文中宣称的 FGE, RSW, CE, SA 对应在源码中的具体位置.</p>
+<h2 id="四点改进">四点改进</h2>
+<p>待续</p>
+<h3 id="fine-grained-embedding-fge">Fine-Grained Embedding(FGE)</h3>
+<h3 id="convolutional-enhancement-ce">Convolutional Enhancement(CE)</h3>
+<h3 id="removal-of-shift-window-rsw">Removal of Shift Window(RSW)</h3>
+<h3 id="squeeze-attention-sa">Squeeze Attention(SA)</h3>
+<h2 id="干净实现">干净实现</h2>
+<p>待续</p>
+<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
+  clientID: 'db399ba6c4ddbf739bef',
+  clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
+  repo: 'gitalk-comments',
+  owner: 'ParaN3xus',
+  admin: 'ParaN3xus'.split(','),
+  id: md5(window.location.pathname),
+  distractionFreeMode: false  // Facebook-like distraction free mode
+});
+window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article><aside class="post-widget"><h4>目录</h4><nav class="post-toc-wrap" id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%B1%BB%E5%B1%82%E6%AC%A1"><span class="post-toc-number">1.</span> <span class="post-toc-text">类层次</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9B%9B%E7%82%B9%E6%94%B9%E8%BF%9B"><span class="post-toc-number">2.</span> <span class="post-toc-text">四点改进</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fine-grained-embedding-fge"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Fine-Grained Embedding(FGE)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#convolutional-enhancement-ce"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Convolutional Enhancement(CE)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#removal-of-shift-window-rsw"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Removal of Shift Window(RSW)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#squeeze-attention-sa"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">Squeeze Attention(SA)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B9%B2%E5%87%80%E5%AE%9E%E7%8E%B0"><span class="post-toc-number">3.</span> <span class="post-toc-text">干净实现</span></a></li></ol></nav></aside></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><div class="footer-content"><div class="footer-links"><div class="footer-links-column"><p><a title="sjfh's Homepage" target="_blank" rel="noopener" href="https://sjfh.top/">sjfh's Homepage</a></p></div></div><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
+PV
+</span><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv">?</span>
+UV</span></div>
+
+Copyright &copy;
+2023<span class="time-divide">-</span>2024
+ParaN3xus.
+
+Power by
+<a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>
+and
+<a href="https://github.com/Cerallin/hexo-theme-yuzu" target="_blank" rel="external nofollow" title="v3.2.4">Theme Yuzu</a>.</div></div></footer>
+<script>window.config = {
+  url_root: '/',
+  meta_path: 'meta.json',
+};
+</script>
+<script src="/js/theme/back-to-top.js"></script>
+
+
+<script src="/js/theme/clipboard.js"></script>
+
+
+<script src="/js/theme/loading.js"></script>
+
+
+<script src="/js/theme/navbar.js"></script>
+
+<script src="/js/theme/search.js"></script>
+
+<script src="/js/theme/toc.js"></script>
+<script>window.onload = function () {
+  for (const moduleName in Theme) {
+    const module = Theme[moduleName];
+    module.register();
+  }
+};</script></div><div class="search-modal" id="search-modal"><div class="card"><div class="card-head"><div class="search-box"><input class="search-input" id="search-input" placeholder="搜索"/><div class="search-button" id="search-button"><div class="icon icon-search"></div></div></div><div class="close-button"><div class="icon icon-x"></div></div></div><div class="card-body"><div class="search-count">共<span id="search-count-num">0</span>条搜索结果。</div><div class="search-result" id="search-result"></div></div></div></div></body></html>
