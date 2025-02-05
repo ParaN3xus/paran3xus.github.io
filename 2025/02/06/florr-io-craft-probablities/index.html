@@ -1,0 +1,474 @@
+<html lang="zh"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="写点小东西，主要自己看"/><meta name="keyword"/><title>florr.io 中的合成与概率
+-
+ParaN3xus的Blog
+-
+
+</title><link rel="icon" href="/img/favicon.ico"/>
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet" href="/css/helpers.css">
+
+<script src="/js/clipboard/clipboard.min.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+<script async="async" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- hexo injector head_end start --><style>.typst-app {
+  margin: 0;
+  --typst-dom-scale: 1;
+  /* --typst-dom-scale: 1.5; */
+  margin: 5px;
+}
+
+.typst-dom-page {
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  --data-text-width: calc(1px * var(--typst-dom-scale));
+  --data-text-height: calc(1px * var(--typst-dom-scale));
+}
+
+.typst-back-canvas {
+  position: absolute;
+  z-index: -1;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  pointer-events: none;
+}
+
+.typst-svg-page {
+  position: absolute;
+  z-index: 0;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+}
+
+.typst-html-semantics {
+  position: absolute;
+  z-index: 2;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  color: transparent;
+  font-family: monospace;
+  white-space: pre;
+  opacity: 0.62;
+}
+
+.typst-html-semantics span {
+  color: transparent;
+  font-family: monospace;
+  transform-origin: left top;
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  top: 0;
+}
+
+.typst-content-hint {
+  position: absolute;
+  display: inline-block;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.typst-html-semantics a {
+  position: absolute;
+  display: inline-block;
+}
+
+/* set transparent itself */
+.typst-content-group {
+  pointer-events: visible;
+}
+
+.typst-html-semantics span::-moz-selection {
+  color: transparent;
+  background: #7db9de;
+}
+
+.typst-html-semantics span::selection {
+  color: transparent;
+  background: #7db9de;
+}
+
+.typst-html-semantics *::-moz-selection {
+  color: transparent;
+  background: transparent;
+}
+
+.typst-html-semantics *::selection {
+  color: transparent;
+  background: transparent;
+}
+
+.typst-content-fallback {
+  color: transparent;
+  background: transparent;
+}
+
+.pseudo-link,
+.typst-text {
+  pointer-events: none;
+}
+
+.tsel span,
+.tsel {
+  left: 0;
+  position: fixed;
+  text-align: justify;
+  white-space: pre;
+  width: 100%;
+  height: 100%;
+  text-align-last: justify;
+  color: transparent;
+}
+.tsel span::-moz-selection,
+.tsel::-moz-selection {
+  color: transparent;
+  background: #7db9dea0;
+}
+.tsel span::selection,
+.tsel::selection {
+  color: transparent;
+  background: #7db9dea0;
+}
+.pseudo-link {
+  fill: transparent;
+  cursor: pointer;
+  pointer-events: all;
+}
+svg {
+  fill: none;
+}
+
+.outline_glyph path,
+path.outline_glyph {
+  fill: var(--glyph_fill);
+  stroke: var(--glyph_stroke);
+}
+
+.outline_glyph path,
+path.outline_glyph {
+  transition: 0.2s fill stroke;
+}
+.hover .typst-text {
+  --glyph_fill: #66bab7;
+  --glyph_stroke: #66bab7;
+}
+
+.typst-jump-ripple,
+.typst-debug-react-ripple {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  position: absolute;
+  border-radius: 50%;
+}
+.typst-jump-ripple {
+  border: 1px solid #66bab7;
+}
+.typst-debug-react-ripple {
+  border: 1px solid #cb1b45;
+}
+@keyframes typst-jump-ripple-effect {
+  to {
+    width: 10vw;
+    height: 10vw;
+    opacity: 0.01;
+    margin: -5vw;
+  }
+}
+@keyframes typst-debug-react-ripple-effect {
+  to {
+    width: 3vw;
+    height: 3vw;
+    opacity: 0.01;
+    margin: -1.5vw;
+  }
+}
+</style>
+<script>/// https://segmentfault.com/a/1190000016574288
+(function () {
+  var ie = !!(window.attachEvent && !window.opera);
+  var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && RegExp.$1 < 525;
+  var fn = [];
+  var run = function () {
+    for (var i = 0; i < fn.length; i++) fn[i]();
+  };
+  var d = document;
+  d.ready = function (f) {
+    if (!ie && !wk && d.addEventListener) return d.addEventListener('DOMContentLoaded', f, false);
+    if (fn.push(f) > 1) return;
+    if (ie)
+      (function () {
+        try {
+          d.documentElement.doScroll('left');
+          run();
+        } catch (err) {
+          setTimeout(arguments.callee, 0);
+        }
+      })();
+    else if (wk)
+      var t = setInterval(function () {
+        if (/^(loaded|complete)$/.test(d.readyState)) clearInterval(t), run();
+      }, 0);
+  };
+})();
+</script>
+<script type="module" src="/typst/typst-main.js"></script><script src="/typst/svg-utils.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div class="loading-wrapper" data-loading="data-loading"><div class="loading"><span></span><span></span><span></span></div></div><div class="page" data-filter="data-filter"><div class="head" data-show="data-show"><header class="head-header"><div class="head-author"><a class="head-author-link" href="/">ParaN3xus的Blog</a></div><div class="head-right"><button class="bar-wrap" id="bar-wrap-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><div class="head-item"><a class="search-button head-item-link"><span>搜索</span>
+<i class="icon icon-search"></i></a></div><div class="head-item"><a class="head-item-link" href="/about">关于</a></div></div></header>
+<div class="menubar-head" id="menubar"><ul class="menubar-ul"><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><i class="icon icon-archive"></i>
+<a class="menubar-link" href="/archives">Archives</a></li><li class="menubar-item"><i class="icon icon-tags"></i>
+<a class="menubar-link" href="/tags">Tags</a></li><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><a class="menubar-link" href="/about"><span>关于</span></a></li></ul><div class="menu-search-box search-button"><div>搜索</div>
+<i class="icon icon-search"></i></div></div></div><div class="main" data-page="post"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2025/02/06/florr-io-craft-probablities/">florr.io 中的合成与概率</a></h1></header><div class="post-meta"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2025-02-06 02:34:54" datetime="2025-02-05T18:34:54.000Z">2025-02-06</time></div>|
+<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/florr-io/" rel="tag">florr.io</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/probablity/" rel="tag">probablity</a></li></ul></div>
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共557字。</div>
+<div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
+
+|
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><script>window.typstBindSvgDom = function () {};
+window.captureStack = function () {
+  return undefined;
+};
+let appContainer = document.currentScript && document.currentScript.parentElement;
+
+const appElem = document.createElement('div');
+if (appContainer) {
+  appContainer.appendChild(appElem);
+}
+appElem.classList.add('typst-app');
+
+function getViewport(appElem) {
+  const domScale = 1.5;
+  const appPos = appElem.getBoundingClientRect();
+  const left = appPos.left;
+  const top = -appPos.top;
+  const right = window.innerWidth;
+  const bottom = window.innerHeight - appPos.top;
+  const rect = {
+    x: 0,
+    y: top / domScale,
+    width: Math.max(right - left, 0) / domScale,
+    height: Math.max(bottom - top, 0) / domScale,
+  };
+  if (rect.width <= 0 || rect.height <= 0) {
+    rect.x = rect.y = rect.width = rect.height = 0;
+  }
+  // console.log('ccc', basePos, appPos, rect);
+  return rect;
+}
+
+// prefetch
+let tsModule = fetch(`/typst/typst_ts_renderer_bg.wasm`);
+let tsData = fetch(`/artifacts/typst/source/_posts/florr-io-craft-probablities.multi.sir.in`);
+
+let prevHovers = void 0;
+function updateHovers(elems) {
+  if (prevHovers) {
+    for (const h of prevHovers) {
+      h.classList.remove("focus");
+    }
+  }
+  prevHovers = elems;
+}
+let globalSemaLabels = [];
+
+document.ready(() => {
+  let plugin = window.TypstRenderModule.createTypstRenderer();
+  console.log(plugin);
+
+  let session = undefined;
+
+  let initialRender = true;
+  const typstBindCustomSemantics = async (root, svg, semantics) => {
+    console.log('bind custom semantics', root, svg, semantics);
+    const customs = await plugin.getCustomV1({
+      renderSession: session,
+    });
+    const semaLabel = customs.find(k => k[0] === 'sema-label');
+    if (semaLabel) {
+      const labelBin = semaLabel[1];
+      const labels = JSON.parse(dec.decode(labelBin));
+      globalSemaLabels = labels.map(([label, pos]) => {
+        const [_, u, x, y] = pos.split(/[pxy]/).map(Number.parseFloat);
+        return [encodeURIComponent(label), svg, [u, x, y]];
+      });
+    }
+
+    // postProcessCrossLinks(semantics);
+
+    // todo: out of page
+    if (window.location.hash) {
+      // console.log('hash', window.location.hash);
+
+      // parse location.hash = `loc-${page}x${x.toFixed(2)}x${y.toFixed(2)}`;
+      const hash = window.location.hash;
+      const firstSep = hash.indexOf('-');
+      // console.log('jump label', window.location.hash, firstSep, globalSemaLabels);
+      if (firstSep != -1 && hash.slice(0, firstSep) === '#label') {
+        const labelTarget = hash.slice(firstSep + 1);
+        for (const [label, dom, pos] of globalSemaLabels) {
+          if (label === labelTarget) {
+            const [_, x, y] = pos;
+            // console.log('jump label', label, pos);
+            window.handleTypstLocation(dom, 1, x, y, {
+              behavior: initialRender ? 'smooth' : 'instant',
+            });
+            initialRender = false;
+            break;
+          }
+        }
+      }
+    }
+  };
+
+  window.typstBindCustomSemantics = (root, svg, semantics) =>
+    setTimeout(() => typstBindCustomSemantics(root, svg, semantics), 0);
+
+  const baseHandleTypstLocation = window.handleTypstLocation;
+  window.handleTypstLocation = (elem, page, x, y, options) => {
+    const docRoot = findAncestor(elem, 'typst-app');
+    if (!docRoot) {
+      console.warn('no typst-app found', elem);
+      return;
+    }
+
+    console.log(docRoot);
+    options = options || {};
+    options.isDom = true;
+
+    for (const h of docRoot.children) {
+      if (h.classList.contains('typst-dom-page')) {
+        const idx = Number.parseInt(h.getAttribute('data-index'));
+        if (idx + 1 === page) {
+          const svg = h.querySelector('.typst-svg-page');
+          if (svg) {
+            baseHandleTypstLocation(svg, page, x, y, options);
+          }
+          return;
+        }
+      }
+    }
+  };
+
+  window.assignSemaHash = (u, x, y) => {
+    // console.log(`find labels ${u}:${x}:${y} in`, globalSemaLabels);
+    for (const [label, dom, pos] of globalSemaLabels) {
+      const [u1, x1, y1] = pos;
+      if (u === u1 && Math.abs(x - x1) < 0.01 && Math.abs(y - y1) < 0.01) {
+        location.hash = `label-${label}`;
+        // const domX1 = x1 * dom.viewBox.baseVal.width;
+        // const domY1 = y1 * dom.viewBox.baseVal.height;
+
+        window.typstCheckAndRerender?.(false, new Error('assignSemaHash')).then(() => {
+          const width = dom.viewBox.baseVal.width;
+          const height = dom.viewBox.baseVal.height;
+          const bbox = dom.getBoundingClientRect();
+          const domX1 = bbox.left + (x1 / width) * bbox.width;
+          const domY1 = bbox.top + (y1 / height) * bbox.height;
+
+          const lnk = findLinkInSvg(dom, [domX1, domY1]);
+          if (!lnk) {
+            return;
+          }
+          // const semaLinkLocation = document.getElementById(`typst-label-${label}`);
+          const relatedElems = window.typstGetRelatedElements(lnk);
+          for (const h of relatedElems) {
+            h.classList.add('focus');
+          }
+          updateHovers(relatedElems);
+          return;
+        });
+        return;
+      }
+    }
+    updateHovers([]);
+    // todo: multiple documents
+    location.hash = `loc-${u}x${x.toFixed(2)}x${y.toFixed(2)}`;
+  };
+
+  let initialized = plugin.init({ getModule: () => tsModule });
+
+  initialized = initialized
+    .then(() => tsData)
+    .then(response => response.arrayBuffer())
+    .then(buffer => new Uint8Array(buffer));
+
+  initialized = initialized.then(artifactData => {
+    return new Promise(resolve => {
+      plugin.runWithSession(
+        ses =>
+          new Promise(dispose => {
+            // ignore dispose
+            void dispose;
+
+            session = ses;
+
+            const t = performance.now();
+            const dom = plugin.renderDom({
+              renderSession: ses,
+              container: appElem,
+              pixelPerPt: 4.5,
+              domScale: 1.5,
+            });
+
+            dom.then((dom) => {
+              console.log(dom);
+              dom.addChangement(['new', artifactData]);
+              console.log('render time!!!!!!!!!', performance.now() - t);
+
+              window.addEventListener('resize', () => dom.addViewportChange());
+              window.addEventListener('scroll', () => dom.addViewportChange());
+            })
+          }),
+      );
+    });
+  });
+});
+</script><h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
+  clientID: 'db399ba6c4ddbf739bef',
+  clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
+  repo: 'gitalk-comments',
+  owner: 'ParaN3xus',
+  admin: 'ParaN3xus'.split(','),
+  id: md5(window.location.pathname),
+  distractionFreeMode: false  // Facebook-like distraction free mode
+});
+window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><div class="footer-content"><div class="footer-links"><div class="footer-links-column"><p><a title="sjfh's Homepage" target="_blank" rel="noopener" href="https://sjfh.top/">sjfh's Homepage</a></p></div></div><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
+PV
+</span><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv">?</span>
+UV</span></div>
+
+Copyright &copy;
+2023<span class="time-divide">-</span>2025
+ParaN3xus.
+
+Power by
+<a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>
+and
+<a href="https://github.com/Cerallin/hexo-theme-yuzu" target="_blank" rel="external nofollow" title="v3.2.4">Theme Yuzu</a>.</div></div></footer>
+<script>window.config = {
+  url_root: '/',
+  meta_path: 'meta.json',
+};
+</script>
+<script src="/js/theme/back-to-top.js"></script>
+
+
+<script src="/js/theme/clipboard.js"></script>
+
+
+<script src="/js/theme/loading.js"></script>
+
+
+<script src="/js/theme/navbar.js"></script>
+
+<script src="/js/theme/search.js"></script>
+
+<script src="/js/theme/toc.js"></script>
+<script>window.onload = function () {
+  for (const moduleName in Theme) {
+    const module = Theme[moduleName];
+    module.register();
+  }
+};</script></div><div class="search-modal" id="search-modal"><div class="card"><div class="card-head"><div class="search-box"><input class="search-input" id="search-input" placeholder="搜索"/><div class="search-button" id="search-button"><div class="icon icon-search"></div></div></div><div class="close-button"><div class="icon icon-x"></div></div></div><div class="card-body"><div class="search-count">共<span id="search-count-num">0</span>条搜索结果。</div><div class="search-result" id="search-result"></div></div></div></div></body></html>
