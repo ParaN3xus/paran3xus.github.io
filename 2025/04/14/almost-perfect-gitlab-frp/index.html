@@ -1,0 +1,443 @@
+<html lang="zh"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="写点小东西，主要自己看"/><meta name="keyword"/><title>近乎完美的 GitLab + frp 搭建踩坑
+-
+ParaN3xus的Blog
+-
+
+</title><link rel="icon" href="/img/favicon.ico"/>
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet" href="/css/helpers.css">
+
+<script src="/js/clipboard/clipboard.min.js"></script>
+
+
+<script src="/js/bootstrap.js"></script>
+
+<script async="async" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- hexo injector head_end start --><style>.typst-app {
+  margin: 0;
+  --typst-dom-scale: 1;
+  /* --typst-dom-scale: 1.5; */
+  margin: 5px;
+}
+
+.typst-dom-page {
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  --data-text-width: calc(1px * var(--typst-dom-scale));
+  --data-text-height: calc(1px * var(--typst-dom-scale));
+}
+
+.typst-back-canvas {
+  position: absolute;
+  z-index: -1;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  pointer-events: none;
+}
+
+.typst-svg-page {
+  position: absolute;
+  z-index: 0;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+}
+
+.typst-html-semantics {
+  position: absolute;
+  z-index: 2;
+  width: calc(var(--data-page-width, 100%) * var(--typst-dom-scale));
+  height: calc(var(--data-page-height) * var(--typst-dom-scale));
+  color: transparent;
+  font-family: monospace;
+  white-space: pre;
+  opacity: 0.62;
+}
+
+.typst-html-semantics span {
+  color: transparent;
+  font-family: monospace;
+  transform-origin: left top;
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  top: 0;
+}
+
+.typst-content-hint {
+  position: absolute;
+  display: inline-block;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.typst-html-semantics a {
+  position: absolute;
+  display: inline-block;
+}
+
+/* set transparent itself */
+.typst-content-group {
+  pointer-events: visible;
+}
+
+.typst-html-semantics span::-moz-selection {
+  color: transparent;
+  background: #7db9de;
+}
+
+.typst-html-semantics span::selection {
+  color: transparent;
+  background: #7db9de;
+}
+
+.typst-html-semantics *::-moz-selection {
+  color: transparent;
+  background: transparent;
+}
+
+.typst-html-semantics *::selection {
+  color: transparent;
+  background: transparent;
+}
+
+.typst-content-fallback {
+  color: transparent;
+  background: transparent;
+}
+
+.pseudo-link,
+.typst-text {
+  pointer-events: none;
+}
+
+.tsel span,
+.tsel {
+  left: 0;
+  position: fixed;
+  text-align: justify;
+  white-space: pre;
+  width: 100%;
+  height: 100%;
+  text-align-last: justify;
+  color: transparent;
+}
+.tsel span::-moz-selection,
+.tsel::-moz-selection {
+  color: transparent;
+  background: #7db9dea0;
+}
+.tsel span::selection,
+.tsel::selection {
+  color: transparent;
+  background: #7db9dea0;
+}
+.pseudo-link {
+  fill: transparent;
+  cursor: pointer;
+  pointer-events: all;
+}
+svg {
+  fill: none;
+}
+
+.outline_glyph path,
+path.outline_glyph {
+  fill: var(--glyph_fill);
+  stroke: var(--glyph_stroke);
+}
+
+.outline_glyph path,
+path.outline_glyph {
+  transition: 0.2s fill stroke;
+}
+.hover .typst-text {
+  --glyph_fill: #66bab7;
+  --glyph_stroke: #66bab7;
+}
+
+.typst-jump-ripple,
+.typst-debug-react-ripple {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  position: absolute;
+  border-radius: 50%;
+}
+.typst-jump-ripple {
+  border: 1px solid #66bab7;
+}
+.typst-debug-react-ripple {
+  border: 1px solid #cb1b45;
+}
+@keyframes typst-jump-ripple-effect {
+  to {
+    width: 10vw;
+    height: 10vw;
+    opacity: 0.01;
+    margin: -5vw;
+  }
+}
+@keyframes typst-debug-react-ripple-effect {
+  to {
+    width: 3vw;
+    height: 3vw;
+    opacity: 0.01;
+    margin: -1.5vw;
+  }
+}
+</style>
+<script>/// https://segmentfault.com/a/1190000016574288
+(function () {
+  var ie = !!(window.attachEvent && !window.opera);
+  var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && RegExp.$1 < 525;
+  var fn = [];
+  var run = function () {
+    for (var i = 0; i < fn.length; i++) fn[i]();
+  };
+  var d = document;
+  d.ready = function (f) {
+    if (!ie && !wk && d.addEventListener) return d.addEventListener('DOMContentLoaded', f, false);
+    if (fn.push(f) > 1) return;
+    if (ie)
+      (function () {
+        try {
+          d.documentElement.doScroll('left');
+          run();
+        } catch (err) {
+          setTimeout(arguments.callee, 0);
+        }
+      })();
+    else if (wk)
+      var t = setInterval(function () {
+        if (/^(loaded|complete)$/.test(d.readyState)) clearInterval(t), run();
+      }, 0);
+  };
+})();
+</script>
+<script type="module" src="/typst/typst-main.js"></script><script src="/typst/svg-utils.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div class="loading-wrapper" data-loading="data-loading"><div class="loading"><span></span><span></span><span></span></div></div><div class="page" data-filter="data-filter"><div class="head" data-show="data-show"><header class="head-header"><div class="head-author"><a class="head-author-link" href="/">ParaN3xus的Blog</a></div><div class="head-right"><button class="bar-wrap" id="bar-wrap-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><div class="head-item"><a class="search-button head-item-link"><span>搜索</span>
+<i class="icon icon-search"></i></a></div><div class="head-item"><a class="head-item-link" href="/about">关于</a></div></div></header>
+<div class="menubar-head" id="menubar"><ul class="menubar-ul"><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><i class="icon icon-archive"></i>
+<a class="menubar-link" href="/archives">Archives</a></li><li class="menubar-item"><i class="icon icon-tags"></i>
+<a class="menubar-link" href="/tags">Tags</a></li><li class="menubar-item" data-border="data-border"></li><li class="menubar-item"><a class="menubar-link" href="/about"><span>关于</span></a></li></ul><div class="menu-search-box search-button"><div>搜索</div>
+<i class="icon icon-search"></i></div></div></div><div class="main" data-page="post"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2025/04/14/almost-perfect-gitlab-frp/">近乎完美的 GitLab + frp 搭建踩坑</a></h1></header><div class="post-meta"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2025-04-14 10:04:55" datetime="2025-04-14T02:04:55.000Z">2025-04-14</time></div>|
+<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/free-ride/" rel="tag">free-ride</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">network</a></li></ul></div>
+<div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="post-info"><div class="post-word-count">本文共1,681字。</div>
+<div class="post-cc">版权声明：署名-非商业性使用-相同方式共享
+
+|
+<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/2.5/cn/">CC BY-NC-SA 2.5 CN</a></div></div><div class="article-entry" itemprop="articleBody"><p>很早之前就想自建一个 Git server, 终于在这个月早些动工了.</p>
+<p>我的基本要求是</p>
+<ul>
+<li>一个公网可以访问的, 全链路 HTTPS 保护的 GitLab 网站</li>
+<li>可以正常使用 Git over SSH</li>
+<li>有邮箱通知(尽管可能被标记为垃圾邮件)</li>
+<li>服务器的 IP 不被泄露, 但是不支付额外费用购买如 Cloudflare 等平台的付费服务</li>
+</ul>
+<p>为此, 我使用了</p>
+<ul>
+<li>一台我有 root 权限的公网服务器, 用于运行 frp, wstunnel 等</li>
+<li>一台我有 root 权限的内网服务器, 用于运行 GitLab 本体</li>
+<li>一个二级域名</li>
+<li>一个支持 SMTP 的邮箱(Gmail)</li>
+</ul>
+<h2 id="思路">思路</h2>
+<p>基本结构如下:</p>
+<p><img src="/images/almost-perfect-gitlab-frp/structure.svg" alt="structure"></p>
+<p>个人认为比较重要的部分就是通过 wstunnel 代理 Git over SSH 的流量, 于是可以走 Cloudflare 达到不泄露服务器 IP 的目的.</p>
+<h2 id="部署过程">部署过程</h2>
+<p>在开始之前, 我们先假设一些值用作示例:</p>
+<ul>
+<li>我们给 GitLab 服务预留的域名是 <a target="_blank" rel="noopener" href="http://gitlab.example.com">gitlab.example.com</a></li>
+<li>wstunnel 服务器的 path prefix 是 ssh-tunnel</li>
+<li>公网服务器的 IP 是 1.2.3.4</li>
+<li>公网服务器暴露了以下端口
+<table>
+<thead>
+<tr>
+<th style="text-align:left">端口</th>
+<th style="text-align:left">服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">10001</td>
+<td style="text-align:left">frp server</td>
+</tr>
+<tr>
+<td style="text-align:left">80</td>
+<td style="text-align:left">nginx http</td>
+</tr>
+<tr>
+<td style="text-align:left">443</td>
+<td style="text-align:left">nginx https</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>公网服务器上还预留了以下端口, 但是不需要暴露
+<table>
+<thead>
+<tr>
+<th style="text-align:left">端口</th>
+<th style="text-align:left">服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">10002</td>
+<td style="text-align:left">GitLab Web</td>
+</tr>
+<tr>
+<td style="text-align:left">10003</td>
+<td style="text-align:left">GitLab SSH</td>
+</tr>
+<tr>
+<td style="text-align:left">10004</td>
+<td style="text-align:left">wstunnel server</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>内网服务器上预留了以下端口
+<table>
+<thead>
+<tr>
+<th style="text-align:left">端口</th>
+<th style="text-align:left">服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">801</td>
+<td style="text-align:left">GitLab Web</td>
+</tr>
+<tr>
+<td style="text-align:left">221</td>
+<td style="text-align:left">GitLab SSH</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h3 id="frp-server-的安装和配置">FRP Server 的安装和配置</h3>
+<p>在公网服务器上进行.</p>
+<p>从 frp 的<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">官方仓库</a>下载即可.</p>
+<p>这里提供一个简单的配置.</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">bindPort</span> = <span class="number">10001</span></span><br><span class="line"><span class="attr">auth.token</span> = <span class="string">&quot;some-random-password&quot;</span></span><br></pre></td></tr></table></figure>
+<p>启动 frps</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frps -c config.toml</span><br></pre></td></tr></table></figure>
+<h3 id="wstunnel-server-的安装和配置">wstunnel Server 的安装和配置</h3>
+<p>在公网服务器上进行.</p>
+<p>从 wstunnel 的<a target="_blank" rel="noopener" href="https://github.com/erebe/wstunnel">官方仓库</a>下载即可.</p>
+<p>可以一行启动:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wstunnel server ws://0.0.0.0:10004 --restrict-http-upgrade-path-prefix ssh-tunnel --restrict-to localhost:10003</span><br></pre></td></tr></table></figure>
+<p>这里按前面所说的额外限制了 path perfix 和可以访问的端口以提高安全性.</p>
+<h3 id="gitlab-安装和配置">GitLab 安装和配置</h3>
+<p>在内网服务器上进行.</p>
+<p>遵循<a target="_blank" rel="noopener" href="https://about.gitlab.com/install/?version=ce#debian">官方教程</a>即可.</p>
+<p>需要注意我们使用 SMTP 提供邮件服务, 所以不需要安装 postfix. 此外, 安装时首次 configurate 申请证书会失败, 这无关紧要, 我们之后使用自签名证书即可.</p>
+<p>编辑 <code>/etc/gitlab/gitlab.rb</code> 中的这些配置项</p>
+<ul>
+<li><code>external_url</code>: 如果你没有在安装时指定, 现在可以设置了, 我们提到过使用 <code>https://gitlab.example.com</code> 作为示例</li>
+<li>SMTP 相关配置: 我这里根据<a target="_blank" rel="noopener" href="https://docs.gitlab.com/omnibus/settings/smtp/#gmail">官方文档</a>中的指引进行配置. 我还额外设置了 <code>gitlab_rails['gitlab_email_from']</code> 为真实的邮箱用户名.</li>
+<li><code>letsencrypt['enable']</code>: 修改为 <code>false</code>. 我已经解释过.</li>
+<li><code>nginx['listen_port']</code>: 如果你的服务器上还运行了其他占用 80 端口的服务, 可以把这个端口修改为其他端口, 这里使用 801 作为示例.</li>
+</ul>
+<p>生成自签名证书</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/gitlab/ssl</span><br><span class="line"><span class="built_in">sudo</span> openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout gitlab.example.com.key -out gitlab.example.com.crt</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 600 gitlab.example.com.*</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> root:root gitlab.example.com.*</span><br></pre></td></tr></table></figure>
+<p>做完这些后, 可以重新配置和重启 GitLab:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> gitlab-ctl reconfigure                     </span><br><span class="line"><span class="built_in">sudo</span> gitlab-ctl restart</span><br></pre></td></tr></table></figure>
+<h3 id="sshd-的安装和配置">sshd 的安装和配置</h3>
+<p>在内网服务器上进行.</p>
+<p>直接从系统软件源安装即可.</p>
+<p>安全起见, 我们使用一个单独的端口暴露 Git over SSH 服务, 并且只允许 git 用户登录, 这里使用 221 端口作为示例.</p>
+<p>在 <code>/etc/ssh/sshd_config</code> 添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Port 221</span><br><span class="line">Match LocalPort=221</span><br><span class="line">  AllowUsers git</span><br></pre></td></tr></table></figure>
+<p>重启 SSHD 服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart sshd</span><br></pre></td></tr></table></figure>
+<h3 id="frp-client-的安装和配置">FRP Client 的安装和配置</h3>
+<p>在内网服务器上进行.</p>
+<p>从 frp 的<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">官方仓库</a>下载即可.</p>
+<p>然后对我们用到的 nginx 和 SSH 端口做转发:</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">serverAddr</span> = <span class="string">&quot;1.2.3.4&quot;</span></span><br><span class="line"><span class="attr">serverPort</span> = <span class="number">10001</span></span><br><span class="line"><span class="attr">auth.token</span> = <span class="string">&quot;some-random-password&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[proxies]]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;gitlab-web&quot;</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">&quot;tcp&quot;</span></span><br><span class="line"><span class="attr">localPort</span> = <span class="number">801</span></span><br><span class="line"><span class="attr">remotePort</span> = <span class="number">10002</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[proxies]]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;gitlab-ssh&quot;</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">&quot;tcp&quot;</span></span><br><span class="line"><span class="attr">localPort</span> = <span class="number">221</span></span><br><span class="line"><span class="attr">remotePort</span> = <span class="number">10003</span></span><br></pre></td></tr></table></figure>
+<p>启动 frpc</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frpc -c gitlab.toml</span><br></pre></td></tr></table></figure>
+<h3 id="cloudflare-的配置">Cloudflare 的配置</h3>
+<p>在 Cloudflare 中解析 <a target="_blank" rel="noopener" href="http://gitlab.example.com">gitlab.example.com</a> 到你的公网服务器即可.</p>
+<h3 id="nginx-的安装和配置">nginx 的安装和配置</h3>
+<p>在公网服务器上进行.</p>
+<p>直接从系统的软件源安装即可.</p>
+<p>我们需要获取内网服务器上 GitLab 服务使用的自签名证书</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> bash -c <span class="string">&#x27;echo | openssl s_client -connect localhost:10002 -servername gitlab.example.com 2&gt;/dev/null | openssl x509 &gt; /etc/nginx/ssl/gitlab_cert.pem&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>此外, 我们还需要使用 <a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh">acme.sh</a> 申请证书, 遵从其官方指引即可, 这里不再赘述.</p>
+<p>这里给出一个 <code>/etc/nginx/conf.d/gitlab.conf</code> 的参考配置, 具体可以根据实际情况再修改:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name gitlab.example.com;</span><br><span class="line">    </span><br><span class="line">    ssl_certificate /root/.acme.sh/gitlab.example.com_ecc/gitlab.example.com.cer;</span><br><span class="line">    ssl_certificate_key /root/.acme.sh/gitlab.example.com_ecc/gitlab.example.com.key;</span><br><span class="line">    </span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass https://localhost:10002;</span><br><span class="line"></span><br><span class="line">        proxy_ssl_verify off;</span><br><span class="line">        proxy_ssl_trusted_certificate /etc/nginx/ssl/gitlab_cert.pem;</span><br><span class="line">        proxy_ssl_verify_depth 2;</span><br><span class="line"></span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto $scheme;</span><br><span class="line">        </span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line">        proxy_read_timeout 300;</span><br><span class="line">        proxy_connect_timeout 300;</span><br><span class="line">        proxy_send_timeout 300;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /ssh-tunnel &#123;</span><br><span class="line">        if ($http_upgrade = &quot;&quot;) &#123;</span><br><span class="line">            return 404;</span><br><span class="line">        &#125;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        keepalive_timeout 12000s;</span><br><span class="line">        proxy_pass http://127.0.0.1:10004;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_intercept_errors on;</span><br><span class="line">        proxy_pass_request_headers on;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name gitlab.example.com;</span><br><span class="line">    </span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://localhost:10002;</span><br><span class="line">        proxy_ssl_verify off;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto $scheme;</span><br><span class="line">        </span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line">        proxy_read_timeout 300;</span><br><span class="line">        proxy_connect_timeout 300;</span><br><span class="line">        proxy_send_timeout 300;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="客户端需要的额外配置">客户端需要的额外配置</h3>
+<p>需要安装 wstunnel, 并且在 <code>~/.ssh/config</code> 中额外添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Host gitlab.example.com</span><br><span class="line">    ProxyCommand=wstunnel client wss://gitlab.example.com/ssh-tunnel --http-upgrade-path-prefix ssh-tunnel -L stdio://127.0.0.1:10003</span><br></pre></td></tr></table></figure>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>一些问题的诊断方法, 和我遇到的一些问题的解决方案.</p>
+<h3 id="我不知道-root-用户的密码">我不知道 root 用户的密码</h3>
+<p>如果你忘记了在安装时指定 root 用户密码, 可以遵照 <a target="_blank" rel="noopener" href="https://docs.gitlab.com/security/reset_user_password/#reset-the-root-password">官方文档</a> 中的方法修改密码.</p>
+<h3 id="无法访问服务">无法访问服务</h3>
+<p>由内而外地诊断哪里出了问题. 比如先在内网服务器上 <code>curl http://localhost:801</code>, 测试通过再在公网服务器上测试 <code>localhost:10002</code>, <code>localhost:80</code>.</p>
+<p>Git over SSH 的问题也可以以同样的方式诊断.</p>
+<h3 id="gitlab-无法保存配置-错误代码500">GitLab 无法保存配置, 错误代码500</h3>
+<p>看上去是一些 token 错误引起的问题, 总体的解决方案就是删掉这些 token. 我尝试了若干方法, 已经不太清楚哪一步起了作用, 这里是我当时查阅过的内容:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab/-/issues/419923">https://gitlab.com/gitlab-org/gitlab/-/issues/419923</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab/-/issues/334862">https://gitlab.com/gitlab-org/gitlab/-/issues/334862</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab/-/issues/301170">https://gitlab.com/gitlab-org/gitlab/-/issues/301170</a></li>
+<li><a target="_blank" rel="noopener" href="https://forum.gitlab.com/t/500-error-access-admin-runners-not-a-migration/100875">https://forum.gitlab.com/t/500-error-access-admin-runners-not-a-migration/100875</a></li>
+</ul>
+<h3 id="注册邮件无法正常发送">注册邮件无法正常发送</h3>
+<p>可以按照 GitLab <a target="_blank" rel="noopener" href="https://docs.gitlab.com/omnibus/settings/smtp/#email-not-sent">官方文档</a> 中的步骤进行诊断.</p>
+<p>如果最后发现 <code>Notify.test_email</code> 无法正常发信, 可以使用第三方工具比如 swaks 按相同的配置发信看看有无更详细的错误信息.</p>
+<h3 id="comments">留言评论</h3><div id="gitalk-comments"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"/><script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/md5.js"></script><script>window.gitalk = new Gitalk({
+  clientID: 'db399ba6c4ddbf739bef',
+  clientSecret: '8dc9ce4d59a271859108ea39684cbd54a5124947',
+  repo: 'gitalk-comments',
+  owner: 'ParaN3xus',
+  admin: 'ParaN3xus'.split(','),
+  id: md5(window.location.pathname),
+  distractionFreeMode: false  // Facebook-like distraction free mode
+});
+window.gitalk.render('gitalk-comments'); // Render Gitalk in the element with ID 'gitalk-container'</script></div></article><aside class="post-widget"><h4>目录</h4><nav class="post-toc-wrap" id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="post-toc-number">1.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%83%A8%E7%BD%B2%E8%BF%87%E7%A8%8B"><span class="post-toc-number">2.</span> <span class="post-toc-text">部署过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#frp-server-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">FRP Server 的安装和配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#wstunnel-server-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">wstunnel Server 的安装和配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gitlab-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">GitLab 安装和配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sshd-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">sshd 的安装和配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#frp-client-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">FRP Client 的安装和配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#cloudflare-%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">Cloudflare 的配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#nginx-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">nginx 的安装和配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%9C%80%E8%A6%81%E7%9A%84%E9%A2%9D%E5%A4%96%E9%85%8D%E7%BD%AE"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">客户端需要的额外配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#troubleshooting"><span class="post-toc-number">3.</span> <span class="post-toc-text">Troubleshooting</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%88%91%E4%B8%8D%E7%9F%A5%E9%81%93-root-%E7%94%A8%E6%88%B7%E7%9A%84%E5%AF%86%E7%A0%81"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">我不知道 root 用户的密码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">无法访问服务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gitlab-%E6%97%A0%E6%B3%95%E4%BF%9D%E5%AD%98%E9%85%8D%E7%BD%AE-%E9%94%99%E8%AF%AF%E4%BB%A3%E7%A0%81500"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">GitLab 无法保存配置, 错误代码500</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B3%A8%E5%86%8C%E9%82%AE%E4%BB%B6%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E5%8F%91%E9%80%81"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">注册邮件无法正常发送</span></a></li></ol></li></ol></nav></aside></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><div class="footer-content"><div class="footer-links"><div class="footer-links-column"><p><a title="sjfh's Homepage" target="_blank" rel="noopener" href="https://sjfh.top/">sjfh's Homepage</a></p></div></div><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
+PV
+</span><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv">?</span>
+UV</span></div>
+
+Copyright &copy;
+2023<span class="time-divide">-</span>2025
+ParaN3xus.
+
+Power by
+<a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>
+and
+<a href="https://github.com/Cerallin/hexo-theme-yuzu" target="_blank" rel="external nofollow" title="v3.2.4">Theme Yuzu</a>.</div></div></footer>
+<script>window.config = {
+  url_root: '/',
+  meta_path: 'meta.json',
+};
+</script>
+<script src="/js/theme/back-to-top.js"></script>
+
+
+<script src="/js/theme/clipboard.js"></script>
+
+
+<script src="/js/theme/loading.js"></script>
+
+
+<script src="/js/theme/navbar.js"></script>
+
+<script src="/js/theme/search.js"></script>
+
+<script src="/js/theme/toc.js"></script>
+<script>window.onload = function () {
+  for (const moduleName in Theme) {
+    const module = Theme[moduleName];
+    module.register();
+  }
+};</script></div><div class="search-modal" id="search-modal"><div class="card"><div class="card-head"><div class="search-box"><input class="search-input" id="search-input" placeholder="搜索"/><div class="search-button" id="search-button"><div class="icon icon-search"></div></div></div><div class="close-button"><div class="icon icon-x"></div></div></div><div class="card-body"><div class="search-count">共<span id="search-count-num">0</span>条搜索结果。</div><div class="search-result" id="search-result"></div></div></div></div></body></html>
