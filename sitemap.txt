@@ -1,3 +1,4 @@
+https://paran3xus.github.io/2025/05/19/criteria-for-determining-aging/
 https://paran3xus.github.io/2025/04/14/almost-perfect-gitlab-frp/
 https://paran3xus.github.io/2025/03/01/rl-for-babies/
 https://paran3xus.github.io/2025/02/06/florr-io-craft-probablities/
@@ -62,3 +63,4 @@ https://paran3xus.github.io/tags/florr-io/
 https://paran3xus.github.io/tags/probablity/
 https://paran3xus.github.io/tags/concrete-math/
 https://paran3xus.github.io/tags/reinforce-learning/
+https://paran3xus.github.io/tags/thinking/
