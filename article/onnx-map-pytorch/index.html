@@ -186,8 +186,9 @@ views
   <p>但是有一个问题是, 这些名字丢失的权重, 虽然内部的值(全都是0.x)对得上 PyTorch 模型中的某个权重, 但是有一部分的 shape 却对不上, 具体来说, 是一些矩阵的大小转置了.</p>
   <p>为了确认大小转置了是不是里面的值也确实转置了, 我又构造了另一个模型, 这个模型中的权重都是不对称的, 第一行全都是某个值, 其余行全都是另一个值, 这两个值递增且不相等.</p>
   <p>这次的结果确认了我的想法, 那些名字丢失的矩阵就是被转置了. 关于为什么要转置, 我想可能是因为某种计算过程的改变:</p>
-  <p class="not-prose code-image themed">
-    <p class="theme-dark"><span class="block-equation"><svg style="overflow: visible;" class="typst-doc" viewBox="0 0 114.10168888888887 21.7024" width="114.10168888888887pt" height="21.7024pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+  <div class="not-prose code-image themed">
+    <div class="theme-dark">
+      <p class="block-equation" role="math"><svg style="overflow: visible;" class="typst-doc" viewBox="0 0 114.10168888888887 21.7024" width="114.10168888888887pt" height="21.7024pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
     <g>
         <g transform="translate(0 0)">
             <g class="typst-group">
@@ -279,8 +280,10 @@ views
         </symbol>
     </defs>
 </svg>
-</span></p>
-    <p class="theme-light"><span class="block-equation"><svg style="overflow: visible;" class="typst-doc" viewBox="0 0 114.10168888888887 21.7024" width="114.10168888888887pt" height="21.7024pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+</p>
+    </div>
+    <div class="theme-light">
+      <p class="block-equation" role="math"><svg style="overflow: visible;" class="typst-doc" viewBox="0 0 114.10168888888887 21.7024" width="114.10168888888887pt" height="21.7024pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
     <g>
         <g transform="translate(0 0)">
             <g class="typst-group">
@@ -372,8 +375,9 @@ views
         </symbol>
     </defs>
 </svg>
-</span></p>
-  </p>
+</p>
+    </div>
+  </div>
   <p>总之我们找到了 ONNX 和 PyTorch 模型的权重之间的对应关系.</p>
   <div>
     <div role="none" style="float: left; width: 0pt; position: relative; right: var(--heading-hash-offset-1, 20px)">
