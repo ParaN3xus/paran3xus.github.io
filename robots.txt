@@ -1,5 +1,0 @@
-
-User-agent: *
-Allow: /
-
-Sitemap: https://paran3xus.github.io/sitemap-index.xml
